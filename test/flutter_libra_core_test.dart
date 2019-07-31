@@ -9,7 +9,7 @@ import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pb.dart';
 import 'package:pointycastle/api.dart';
 import 'package:flutter_libra_core/src/encrypt/digests/sha3.dart';
-import 'package:flutter_libra_core/src/ed25519_dart_base.dart' as ed25519;
+import 'package:ed25519_dart/src/ed25519_dart_base.dart';
 
 void main() {
   group('flutter_libra_core tests', () {
@@ -222,7 +222,7 @@ void main() {
       var signedTransaction = new SignedTransaction();
       signedTransaction.rawTxnBytes = rawTxnBytes;
       signedTransaction.senderPublicKey = publicKey;
-      var sig = ed25519.sign(hash, privateKey, publicKey);
+      var sig = sign(hash, privateKey, publicKey);
       signedTransaction.senderSignature = sig;
       var request = new SubmitTransactionRequest();
       request.signedTxn = signedTransaction;

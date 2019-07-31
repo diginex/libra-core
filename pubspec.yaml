@@ -15,7 +15,10 @@ dependencies:
   convert: ^2.1.1
   fixnum: ^0.10.9
   bip39: ^1.0.3
-  ed25519_hd_key: ^1.0.1
+  ed25519_dart:
+    git:
+      url: https://github.com/mmsqe/ed25519_dart.git
+      ref: master
   protoc_plugin: ^17.0.5
   grpc: ^2.0.0+1
   
