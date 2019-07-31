@@ -33,12 +33,16 @@ class LibraHelpers {
     return hexToBytes(bigInt.toRadixString(16).padLeft(32, '0'));
   }
 
-  static Uint8List bigIntToFixLengthBytes(BigInt bigInt, int length) {
+  static Uint8List bigIntToFixLengthBytes(BigInt bigInt, int length,
+      {bool le = false}) {
     String hex = bigInt.toRadixString(16);
     if (hex.length % 2 == 1) {
       hex = '0' + hex;
     }
     Uint8List bytes = hexToBytes(hex);
+    if (le) {
+      bytes = reverse(bytes);
+    }
     if (bytes.length < length) {
       bytes = concat([bytes, new Uint8List(length - bytes.length)]);
     } else {

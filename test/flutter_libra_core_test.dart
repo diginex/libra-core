@@ -164,11 +164,10 @@ void main() {
       var amountToTransfer = BigInt.from(1000000);
 
       var amountBuffer =
-          LibraHelpers.bigIntToFixLengthBytes(amountToTransfer, 8);
-      print('amountBuffer: ${LibraHelpers.byteToHex(amountBuffer)}');
+          LibraHelpers.bigIntToFixLengthBytes(amountToTransfer, 8, le: true);
       List<LibraProgramArgument> programArguments = [
         new LibraProgramArgument(TransactionArgument_ArgType.ADDRESS, HEX.decode(recipientAddress)),
-        new LibraProgramArgument(TransactionArgument_ArgType.U64, LibraHelpers.hexToBytes('40420f0000000000')),
+        new LibraProgramArgument(TransactionArgument_ArgType.U64, amountBuffer),
       ];
 
       String peerToPeerTxn =
