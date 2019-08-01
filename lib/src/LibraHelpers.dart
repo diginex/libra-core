@@ -16,7 +16,7 @@ class LibraHelpers {
 
   /// Converts a Uint8List to a hex string
   static String byteToHex(Uint8List bytes) {
-    return HEX.encode(bytes).toUpperCase();
+    return HEX.encode(bytes).toLowerCase();
   }
 
   static BigInt byteToBigInt(Uint8List bigIntBytes) {
@@ -58,7 +58,7 @@ class LibraHelpers {
 
   /// Converts a binary string into a hex string
   static String binaryToHex(String binary) {
-    return BigInt.parse(binary, radix: 2).toRadixString(16).toUpperCase();
+    return BigInt.parse(binary, radix: 2).toRadixString(16).toLowerCase();
   }
 
   static Uint8List reverse(Uint8List bytes) {

@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/macs/hmac.dart';
-import 'package:flutter_libra_core/src/encrypt/digests/sha3.dart';
+import 'package:flutter_libra_core/src/crypto/digests/sha3.dart';
+import 'package:flutter_libra_core/src/Constants.dart';
 
 class Hashes {
   static const int DIGEST_256 = 256 ~/ 8;
@@ -12,8 +13,7 @@ class Hashes {
   }
 
   static Uint8List digest(int digestSize, List<Uint8List> byteArrays) {
-    String salt = "LIBRA WALLET: derived key\$";
-    var passphraseByteArray = utf8.encode(salt);
+    var passphraseByteArray = utf8.encode(KeyPrefixes.DerivedKey);
     Digest sha3256 = new SHA3Digest(256);
     var hmac = new HMac(sha3256, 136);
     var output = new Uint8List(hmac.macSize);
