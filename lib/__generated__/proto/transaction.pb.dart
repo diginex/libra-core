@@ -67,7 +67,7 @@ class RawTransaction extends $pb.GeneratedMessage {
   void clearSenderAccount() => clearField(1);
 
   Int64 get sequenceNumber => $_getI64(1);
-  set sequenceNumber(Int64 v) { $_setInt64(1, v); }
+  set sequenceNumber(Int64 v) { if (v != 0) $_setInt64(1, v); } // don't set if 0
   $core.bool hasSequenceNumber() => $_has(1);
   void clearSequenceNumber() => clearField(2);
 
@@ -82,17 +82,17 @@ class RawTransaction extends $pb.GeneratedMessage {
   void clearWriteSet() => clearField(4);
 
   Int64 get maxGasAmount => $_getI64(4);
-  set maxGasAmount(Int64 v) { $_setInt64(4, v); }
+  set maxGasAmount(Int64 v) { if (v != 0) $_setInt64(4, v); } // don't set if 0
   $core.bool hasMaxGasAmount() => $_has(4);
   void clearMaxGasAmount() => clearField(5);
 
   Int64 get gasUnitPrice => $_getI64(5);
-  set gasUnitPrice(Int64 v) { $_setInt64(5, v); }
+  set gasUnitPrice(Int64 v) { if (v != 0) $_setInt64(5, v); } // don't set if 0
   $core.bool hasGasUnitPrice() => $_has(5);
   void clearGasUnitPrice() => clearField(6);
 
   Int64 get expirationTime => $_getI64(6);
-  set expirationTime(Int64 v) { $_setInt64(6, v); }
+  set expirationTime(Int64 v) { if (v != 0) $_setInt64(6, v); } // don't set if 0
   $core.bool hasExpirationTime() => $_has(6);
   void clearExpirationTime() => clearField(7);
 }
@@ -151,7 +151,7 @@ class TransactionArgument extends $pb.GeneratedMessage {
   static TransactionArgument _defaultInstance;
 
   TransactionArgument_ArgType get type => $_getN(0);
-  set type(TransactionArgument_ArgType v) { setField(1, v); }
+  set type(TransactionArgument_ArgType v) { if (v.value != 0) setField(1, v); } // don't set if 0
   $core.bool hasType() => $_has(0);
   void clearType() => clearField(1);
 

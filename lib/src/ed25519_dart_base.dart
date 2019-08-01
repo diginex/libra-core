@@ -8,7 +8,7 @@
 
 import 'dart:math' show Random, pow;
 import 'dart:typed_data' show Uint8List;
-
+import 'package:hex/hex.dart';
 import 'package:pointycastle/pointycastle.dart' show Digest;
 
 String digestIdentifier = 'SHA-512';
@@ -43,8 +43,9 @@ final ONE = BigInt.from(1);
 ///     var l = new List<int>.generate(32, (int i) => i + i); // [0, ..., 60, 62]
 ///     bitClamp(new Uint8List.fromList(l)); // [0, ..., 60, 126]
 Uint8List bitClamp(Uint8List bytes) {
+  bytes = bytes.sublist(0, 32);
   bytes[0] &= 248;
-  bytes[31] &= 63;
+  bytes[31] &= 127;
   bytes[31] |= 64;
   return bytes;
 }
@@ -200,6 +201,14 @@ Uint8List secretKey([int seed]) {
   var randList = new List<int>.generate(1024, (_) => randGen.nextInt(bits));
   var clamped = bitClamp(Hash(bytesFromList(randList)));
   return clamped;
+}
+
+Uint8List hexToBytes(String hex) {
+    return Uint8List.fromList(HEX.decode(hex));
+}
+
+String byteToHex(Uint8List bytes) {
+    return HEX.encode(bytes).toUpperCase();
 }
 
 /// Creates signature for message [message] by using secret key [secretKey]
