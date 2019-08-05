@@ -6,22 +6,22 @@ import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 
 class KeyPair {
-  Uint8List privateKey;
+  Uint8List _privateKey;
   Digest _sha3256 = new SHA3Digest(256);
 
-  KeyPair(this.privateKey);
+  KeyPair(this._privateKey);
 
   String getAddress() {
-    Uint8List publicKey = ed25519_dart.publicKey(privateKey);
+    Uint8List publicKey = ed25519_dart.publicKey(_privateKey);
     return LibraHelpers.byteToHex(_sha3256.process(publicKey));
   }
 
   Uint8List getPublicKey() {
-    return ed25519_dart.publicKey(privateKey);
+    return ed25519_dart.publicKey(_privateKey);
   }
 
   Uint8List getPrivateKey() {
-    return privateKey;
+    return _privateKey;
   }
 
   Uint8List sign(Uint8List rawData) {
@@ -29,6 +29,6 @@ class KeyPair {
         LibraHelpers.hexToBytes(HashSaltValues.RawTransactionHashSalt);
     Uint8List msg = _sha3256.process(LibraHelpers.concat([salt, rawData]));
     return ed25519_dart.sign(
-        msg, privateKey, ed25519_dart.publicKey(privateKey));
+        msg, _privateKey, ed25519_dart.publicKey(_privateKey));
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/macs/hmac.dart';
 import 'package:pointycastle/key_derivators/api.dart';
@@ -8,6 +7,7 @@ import 'package:pointycastle/key_derivators/pbkdf2.dart';
 import 'package:flutter_libra_core/src/crypto/digests/sha3.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/wallet/KeyPair.dart';
+import 'package:flutter_libra_core/src/wallet/Mnemonic.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 
 class KeyFactory {
@@ -17,9 +17,9 @@ class KeyFactory {
 
   KeyFactory(String salt, {String mnemonic}) {
     if (mnemonic != null && mnemonic.isNotEmpty) {
-      assert(bip39.validateMnemonic(mnemonic)); // Validate a mnemonic word list
+      assert(Mnemonic.validateMnemonic(mnemonic));
     } else {
-      mnemonic = bip39.generateMnemonic();
+      mnemonic = Mnemonic.generateMnemonic();
     }
     KeyDerivator derivator = new PBKDF2KeyDerivator(new HMac(_sha3256, 136));
     derivator.init(new Pbkdf2Parameters(

@@ -5,6 +5,8 @@ export 'package:flutter_libra_core/src/wallet/index.dart';
 export 'package:flutter_libra_core/src/wallet/Accounts.dart';
 export 'package:flutter_libra_core/src/wallet/KeyFactory.dart';
 export 'package:flutter_libra_core/src/wallet/KeyPair.dart';
+export 'package:flutter_libra_core/src/wallet/Entropy.dart';
+export 'package:flutter_libra_core/src/wallet/Mnemonic.dart';
 export 'package:flutter_libra_core/src/LibraHelpers.dart';
 export 'package:flutter_libra_core/src/CursorBuffer.dart';
 export 'package:flutter_libra_core/src/client/index.dart';
