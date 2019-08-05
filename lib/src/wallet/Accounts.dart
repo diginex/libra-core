@@ -4,9 +4,15 @@ import 'package:flutter_libra_core/src/wallet/KeyPair.dart';
 class LibraAccountState {
   Uint8List authenticationKey;
   int balance, receivedEventsCount, sentEventsCount, sequenceNumber;
+  bool delegatedWithdrawalCapability;
 
-  LibraAccountState(this.authenticationKey, this.balance,
-      this.receivedEventsCount, this.sentEventsCount, this.sequenceNumber) {}
+  LibraAccountState(
+      this.authenticationKey,
+      this.balance,
+      this.receivedEventsCount,
+      this.sentEventsCount,
+      this.sequenceNumber,
+      this.delegatedWithdrawalCapability);
 }
 
 class LibraAccount {

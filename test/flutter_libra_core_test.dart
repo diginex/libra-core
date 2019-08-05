@@ -85,20 +85,24 @@ void main() {
       LibraClient client = new LibraClient();
       LibraWallet wallet = new LibraWallet();
       LibraAccount sender = wallet.newAccount();
+      LibraAccount recipient = wallet.newAccount();
+      print('sende from: ${sender.getAddress()} to ${recipient.getAddress()}');
       String address = sender.getAddress();
       int amount = 1000000;
       await client.mintWithFaucetService(address, BigInt.from(amount),
           needWait: false);
       LibraAccountState senderState = await client.getAccountState(address);
+      print('sender state: ${senderState.balance}, ${senderState.sequenceNumber}');
       expect(senderState.balance, amount);
-
-      LibraAccount recipient = wallet.newAccount();
       LibraTransactionResponse response =
           await client.transferCoins(sender, recipient.getAddress(), amount);
       expect(response.acStatus, AdmissionControlStatusCode.Accepted);
       LibraAccountState recipientState =
           await client.getAccountState(recipient.getAddress());
+      senderState = await client.getAccountState(address);
       expect(recipientState.balance, amount);
+      print('recipient state: ${recipientState.balance}, ${recipientState.sequenceNumber}');
+      print('sender state: ${senderState.balance}, ${senderState.sequenceNumber}');
     });
   });
 }

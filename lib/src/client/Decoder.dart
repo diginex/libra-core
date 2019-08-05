@@ -20,11 +20,17 @@ class ClientDecoder {
       int addressLen = cursor.read32();
       Uint8List address = cursor.readXBytes(addressLen);
       int balance = cursor.read64();
+      bool delegatedWithdrawalCapability = cursor.read8() != 0;
       int receivedEvents = cursor.read64();
       int sentEvents = cursor.read64();
       int sequenceNumber = cursor.read64();
       state[LibraHelpers.byteToHex(key)] = LibraAccountState(
-          address, balance, receivedEvents, sentEvents, sequenceNumber);
+          address,
+          balance,
+          receivedEvents,
+          sentEvents,
+          sequenceNumber,
+          delegatedWithdrawalCapability);
     }
     // TO CHECK
     return state[PathValues.AccountStatePath];
@@ -37,7 +43,7 @@ class ClientDecoder {
     VMInvariantViolationError invariantViolationError;
     BinaryError deserializationError;
     LibraExecutionError executionError;
-    
+
     if (vmStatus.hasValidation()) {
       VMValidationStatus validation = vmStatus.validation;
       validationStatus =
