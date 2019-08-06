@@ -37,3 +37,15 @@ class SeedValues {
   static final int KeySize = 32;
   static final int Size = 64;
 }
+
+const String MintAccount =
+    '0000000000000000000000000000000000000000000000000000000000000000';
+
+// https://github.com/libra/libra/blob/master/language/vm/vm_genesis/src/lib.rs#L239
+class TransactionType {
+  static const String PeerToPeerTransaction = 'peer_to_peer_transaction';
+  static const String CreateAccountTransaction = 'create_account_transaction';
+  static const String MintTransaction = 'mint_transaction';
+  static const String RotateAuthenticationKeyTransaction =
+      'rotate_authentication_key_transaction';
+}

@@ -93,29 +93,50 @@ void main() {
     test('test faucet and transfer', () async {
       LibraClient client = new LibraClient();
       LibraWallet wallet = new LibraWallet();
-      LibraAccount sender = wallet.newAccount();
-      LibraAccount recipient = wallet.newAccount();
-      print('send from: ${sender.getAddress()} to ${recipient.getAddress()}');
-      String address = sender.getAddress();
+      LibraAccount alice = wallet.newAccount();
+      String aliceAddress = alice.getAddress();
+      LibraAccount charley = wallet.newAccount();
+      String charleyAddress = charley.getAddress();
+      LibraAccount bob = wallet.newAccount();
+      String bobAddress = bob.getAddress();
+
+      print('send from alice: $aliceAddress to bob: $bobAddress');
+      print('send from charley: $charleyAddress to bob: $bobAddress');
       int amount = 1000000;
-      await client.mintWithFaucetService(address, BigInt.from(amount),
+      await client.mintWithFaucetService(aliceAddress, BigInt.from(amount),
           needWait: false);
-      LibraAccountState senderState = await client.getAccountState(address);
-      expect(senderState.balance, amount);
-      LibraTransactionResponse response =
-          await client.transferCoins(sender, recipient.getAddress(), amount);
-      expect(response.acStatus, AdmissionControlStatusCode.Accepted);
-      LibraAccountState recipientState =
-          await client.getAccountState(recipient.getAddress());
-      expect(recipientState.balance, amount);
+      await client.mintWithFaucetService(charleyAddress, BigInt.from(amount),
+          needWait: false);
+      await client.transferCoins(alice, bobAddress, amount);
+      await client.transferCoins(charley, bobAddress, amount);
+      LibraAccountState aliceState = await client.getAccountState(aliceAddress);
+      LibraAccountState bobState = await client.getAccountState(bobAddress);
+      LibraAccountState charleyState =
+          await client.getAccountState(charleyAddress);
+      print('alice state: ${aliceState.balance}, ${aliceState.sequenceNumber}');
+      print('bob state: ${bobState.balance}, ${bobState.sequenceNumber}');
+      print(
+          'charley state: ${charleyState.balance}, ${charleyState.sequenceNumber}');
+
       LibraSignedTransactionWithProof lastTransaction =
           await client.getAccountTransaction(
-              address, BigInt.from(senderState.sequenceNumber));
+              aliceAddress, BigInt.from(aliceState.sequenceNumber));
+      print('${lastTransaction.signedTransaction.transaction.sequenceNumber}');
+
       expect(
           LibraHelpers.byteToHex(lastTransaction.signedTransaction.publicKey),
-          LibraHelpers.byteToHex(sender.keyPair.getPublicKey()));
+          LibraHelpers.byteToHex(alice.keyPair.getPublicKey()));
       expect(lastTransaction.signedTransaction.transaction.sequenceNumber,
-          senderState.sequenceNumber);
+          aliceState.sequenceNumber);
+    });
+
+    test('Can get raw transactions by startVersion', () async {
+      LibraClient client = new LibraClient();
+      int startVersion = 44441;
+      List<LibraRawTransaction> libraRawTransactions =
+          await client.getRawTransactionList(startVersion, limit: 1);
+      LibraRawTransaction libraRawTransaction = libraRawTransactions[0];
+      expect(libraRawTransaction.version.toInt(), startVersion);
     });
   });
 }

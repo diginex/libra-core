@@ -14,6 +14,7 @@ import 'package:flutter_libra_core/__generated__/proto/account_state_blob.pb.dar
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pbgrpc.dart';
 import 'package:flutter_libra_core/__generated__/proto/get_with_proof.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/transaction_info.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pb.dart';
 
 class LibraConfig {
@@ -37,6 +38,7 @@ class LibraConfig {
 class LibraClient {
   AdmissionControlClient _client;
   LibraConfig config;
+  Int64 _lastVersionSeen = Int64(0);
 
   LibraClient({LibraConfig config}) {
     this.config = config == null ? new LibraConfig() : config;
@@ -45,6 +47,18 @@ class LibraClient {
     ClientChannel channel = new ClientChannel(this.config.host,
         port: this.config.port, options: options);
     _client = new AdmissionControlClient(channel);
+    getLatestVersionFromLedger();
+  }
+
+  Future<Int64> getLatestVersionFromLedger() async {
+    UpdateToLatestLedgerRequest request = new UpdateToLatestLedgerRequest();
+    request.clientKnownVersion = _lastVersionSeen;
+    request.requestedItems.clear();
+
+    UpdateToLatestLedgerResponse ledgerResponse =
+        await _client.updateToLatestLedger(request);
+    _lastVersionSeen = ledgerResponse.ledgerInfoWithSigs.ledgerInfo.version;
+    return _lastVersionSeen;
   }
 
   Future<LibraAccountState> getAccountState(String address) async {
@@ -186,5 +200,108 @@ class LibraClient {
     SignedTransactionWithProof signedTransactionWP =
         response.signedTransactionWithProof;
     return ClientDecoder.decodeSignedTransactionWithProof(signedTransactionWP);
+  }
+
+  Future<List<LibraRawTransaction>> getRawTransactionList(int startVersion,
+      {limit = 100, fetchEvents = true}) async {
+    GetTransactionsRequest tnxReq = new GetTransactionsRequest();
+    tnxReq.startVersion = Int64(startVersion);
+    tnxReq.limit = Int64(limit);
+    tnxReq.fetchEvents = fetchEvents;
+
+    RequestItem requestItem = new RequestItem();
+    requestItem.getTransactionsRequest = tnxReq;
+
+    UpdateToLatestLedgerRequest request = new UpdateToLatestLedgerRequest();
+    request.clientKnownVersion = _lastVersionSeen;
+    request.requestedItems.clear();
+    request.requestedItems.add(requestItem);
+
+    UpdateToLatestLedgerResponse response =
+        await _client.updateToLatestLedger(request);
+
+    List<ResponseItem> responseItems = response.responseItems;
+    if (responseItems.length == 0) {
+      return null;
+    }
+
+    List<LibraRawTransaction> libraRawTransactions = [];
+
+    Int64 version;
+    int currentVersion;
+
+    GetTransactionsResponse getTransactionsResponse =
+        responseItems[0].getTransactionsResponse;
+    bool hasTxnListWithProof = getTransactionsResponse.hasTxnListWithProof();
+    if (hasTxnListWithProof) {
+      TransactionListWithProof transactionListWithProof =
+          getTransactionsResponse.txnListWithProof;
+      currentVersion =
+          transactionListWithProof.firstTransactionVersion.value.toInt();
+    }
+
+    TransactionListWithProof txnListWithProof =
+        getTransactionsResponse.txnListWithProof;
+    BigInt unit = BigInt.from(1000000);
+
+    for (int i = 0; i < txnListWithProof.transactions.length; i++) {
+      version = Int64(currentVersion + i);
+      SignedTransaction tnx = txnListWithProof.transactions[i];
+      RawTransaction rawTransaction =
+          RawTransaction.fromBuffer(tnx.rawTxnBytes);
+
+      String recipientAddress = '';
+      String amount = '';
+      String publicKey = LibraHelpers.listToHex(tnx.senderPublicKey);
+      String senderAddress =
+          LibraHelpers.listToHex(rawTransaction.senderAccount);
+      String type = senderAddress != MintAccount
+          ? TransactionType.PeerToPeerTransaction
+          : TransactionType.MintTransaction;
+      Int64 gasUnitPrice = rawTransaction.gasUnitPrice;
+      Int64 maxGasAmount = rawTransaction.maxGasAmount;
+      Int64 expirationTime = rawTransaction.expirationTime;
+      Int64 sequenceNumber = rawTransaction.sequenceNumber;
+      String senderSignature = LibraHelpers.listToHex(tnx.senderSignature);
+      Program program = rawTransaction.program;
+      String codeHex = LibraHelpers.listToHex(program.code);
+      List<TransactionArgument> arguments = rawTransaction.program.arguments;
+      if (arguments.length > 1) {
+        recipientAddress = LibraHelpers.listToHex(arguments[0].data);
+
+        amount = (LibraHelpers.byteToBigInt(
+                    Uint8List.fromList(arguments[1].data),
+                    le: true) /
+                unit)
+            .toString();
+      }
+
+      TransactionInfo info = txnListWithProof.infos[i];
+      String signedTransactionHash =
+          LibraHelpers.listToHex(info.signedTransactionHash);
+      String stateRootHash = LibraHelpers.listToHex(info.stateRootHash);
+      String eventRootHash = LibraHelpers.listToHex(info.eventRootHash);
+      Int64 gasUsed = info.gasUsed;
+
+      libraRawTransactions.add(new LibraRawTransaction(
+          version,
+          expirationTime,
+          publicKey,
+          senderAddress,
+          senderSignature,
+          recipientAddress,
+          type,
+          amount,
+          gasUnitPrice,
+          maxGasAmount,
+          sequenceNumber,
+          gasUsed,
+          signedTransactionHash,
+          stateRootHash,
+          eventRootHash,
+          codeHex,
+          program));
+    }
+    return libraRawTransactions;
   }
 }

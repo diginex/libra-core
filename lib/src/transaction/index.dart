@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:hex/hex.dart';
@@ -33,10 +34,10 @@ class LibraTransaction {
   LibraProgram program;
   LibraGasConstraint gasContraint;
   int expirationTime;
-  Uint8List sendersAddress;
+  Uint8List senderAddress;
   int sequenceNumber;
   LibraTransaction(this.program, this.gasContraint, this.expirationTime,
-      this.sendersAddress, this.sequenceNumber);
+      this.senderAddress, this.sequenceNumber);
 
   static LibraTransaction createTransfer(
       String recipientAddress, BigInt amount, int sequenceNumber) {
@@ -61,6 +62,45 @@ class LibraTransaction {
       sequenceNumber,
     );
   }
+}
+
+class LibraRawTransaction {
+  Int64 version;
+  Int64 expirationTime;
+  String publicKey;
+  String senderAddress;
+  String senderSignature;
+  String recipientAddress;
+  String type;
+  String amount;
+  Int64 gasUnitPrice;
+  Int64 maxGasAmount;
+  Int64 sequenceNumber;
+  Int64 gasUsed;
+  String signedTransactionHash;
+  String stateRootHash;
+  String eventRootHash;
+  String codeHex;
+  Program program;
+
+  LibraRawTransaction(
+      this.version,
+      this.expirationTime,
+      this.publicKey,
+      this.senderAddress,
+      this.senderSignature,
+      this.recipientAddress,
+      this.type,
+      this.amount,
+      this.gasUnitPrice,
+      this.maxGasAmount,
+      this.sequenceNumber,
+      this.gasUsed,
+      this.signedTransactionHash,
+      this.stateRootHash,
+      this.eventRootHash,
+      this.codeHex,
+      this.program);
 }
 
 class LibraSignedTransaction {
@@ -178,7 +218,7 @@ class LibraVMStatusError {
   /*
   Future<void> awaitConfirmation(LibraClient client) {
     return client.waitForConfirmation(
-      this.signedTransaction.transaction.sendersAddress,
+      this.signedTransaction.transaction.senderAddress,
       this.signedTransaction.transaction.sequenceNumber++,
     );
   }

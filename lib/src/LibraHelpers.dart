@@ -19,8 +19,16 @@ class LibraHelpers {
     return HEX.encode(bytes).toLowerCase();
   }
 
-  static BigInt byteToBigInt(Uint8List bigIntBytes) {
-    return _decodeBigInt(bigIntBytes);
+  /// Converts a List of int to a hex string
+  static String listToHex(List<int> list) {
+    return byteToHex(Uint8List.fromList(list));
+  }
+
+  static BigInt byteToBigInt(Uint8List bytes, {bool le = false}) {
+    if (le) {
+      bytes = reverse(bytes);
+    }
+    return _decodeBigInt(bytes);
   }
 
   /// Converts a hex string to a Uint8List
