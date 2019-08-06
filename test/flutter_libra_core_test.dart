@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_libra_core/flutter_libra_core.dart';
-import 'package:flutter_libra_core/__generated__/proto/admission_control.pbgrpc.dart';
-import 'package:flutter_libra_core/__generated__/proto/admission_control.pb.dart';
 import 'package:flutter_libra_core/src/wallet/Mnemonic.dart';
 
 const String mnemonic =
@@ -15,11 +13,13 @@ const address2 =
 void main() {
   group('flutter_libra_core tests', () {
     test('Can turn a libra entropy into a mnemonic phrase and back', () {
-      List<String> expectedWordsOrdered =
-          Mnemonic.generateMnemonic().split(' ');
+      List<String> expectedWordsOrdered = mnemonic.split(' ');
       String entropy = Mnemonic.mnemonicListToEntropy(expectedWordsOrdered);
       var list = Mnemonic.entropyToMnemonic(entropy);
-      print('entropy: $entropy, list: $list');
+      expect(list.length, expectedWordsOrdered.length);
+      for (int i = 0; i < list.length; i++) {
+        expect(expectedWordsOrdered[i], list[i]);
+      }
     });
 
     test('test keyFactory', () {
