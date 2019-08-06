@@ -4,6 +4,7 @@ import 'package:hex/hex.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/proof.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/mempool_status.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/vm_errors.pbenum.dart';
@@ -62,14 +63,12 @@ class LibraTransaction {
   }
 }
 
-/*
 class LibraSignedTransaction {
   LibraTransaction transaction;
   Uint8List publicKey;
   Uint8List signature;
   LibraSignedTransaction(this.transaction, this.publicKey, this.signature);
 }
-*/
 
 class LibraTransactionResponse {
   SignedTransaction signedTransaction;
@@ -78,9 +77,7 @@ class LibraTransactionResponse {
   MempoolAddTransactionStatusCode mempoolStatus;
   LibraVMStatusError vmStatus;
 
-  LibraTransactionResponse(
-      this.signedTransaction,
-      this.validatorId,
+  LibraTransactionResponse(this.signedTransaction, this.validatorId,
       {AdmissionControlStatusCode acStatus,
       MempoolAddTransactionStatusCode mempoolStatus,
       LibraVMStatusError vmStatus}) {
@@ -95,15 +92,14 @@ class LibraTransactionResponse {
     }
   }
 }
- class LibraTransactionEvent {
-   Uint8List data, path;
-   BigInt sequenceNumber;
-   String address;
 
-  LibraTransactionEvent(this.data, this.sequenceNumber, {
-    String address,
-    Uint8List path
-  }) {
+class LibraTransactionEvent {
+  Uint8List data, path;
+  BigInt sequenceNumber;
+  String address;
+
+  LibraTransactionEvent(this.data, this.sequenceNumber,
+      {String address, Uint8List path}) {
     if (address != null) {
       this.address = address;
     }
@@ -114,14 +110,12 @@ class LibraTransactionResponse {
 }
 
 class LibraSignedTransactionWithProof {
-  SignedTransaction signedTransaction;
-  SignedTransactionWithProof proof;
+  LibraSignedTransaction signedTransaction;
+  SignedTransactionProof proof;
   List<LibraTransactionEvent> events;
 
-  LibraSignedTransactionWithProof(this.signedTransaction, {
-    SignedTransactionWithProof proof,
-    List<LibraTransactionEvent> events
-  }) {
+  LibraSignedTransactionWithProof(this.signedTransaction,
+      {SignedTransactionProof proof, List<LibraTransactionEvent> events}) {
     if (proof != null) {
       this.proof = proof;
     }

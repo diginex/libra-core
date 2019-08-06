@@ -6,6 +6,9 @@ import 'package:flutter_libra_core/src/Constants.dart';
 import 'package:flutter_libra_core/src/transaction/index.dart';
 import 'package:flutter_libra_core/__generated__/proto/vm_errors.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/vm_errors.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/events.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/access_path.pb.dart';
 
 class ClientDecoder {
   static LibraAccountState decodeAccountStateBlob(ByteBuffer buffer) {
@@ -32,8 +35,72 @@ class ClientDecoder {
           sequenceNumber,
           delegatedWithdrawalCapability);
     }
-    // TO CHECK
     return state[PathValues.AccountStatePath];
+  }
+
+  static LibraSignedTransactionWithProof decodeSignedTransactionWithProof(
+      SignedTransactionWithProof signedTransactionWP) {
+    // decode transaction
+    SignedTransaction signedTransaction = signedTransactionWP.signedTransaction;
+    LibraTransaction libraTransaction = decodeRawTransactionBytes(
+        Uint8List.fromList(signedTransaction.rawTxnBytes));
+    LibraSignedTransaction libraSignedtransaction = new LibraSignedTransaction(
+        libraTransaction,
+        Uint8List.fromList(signedTransaction.senderPublicKey),
+        Uint8List.fromList(signedTransaction.senderSignature));
+
+    // decode event
+    List<LibraTransactionEvent> eventsList = [];
+    if (signedTransactionWP.hasEvents()) {
+      EventsList list = signedTransactionWP.events;
+      list.events.forEach((event) {
+        String address;
+        Uint8List path;
+
+        if (event.hasAccessPath()) {
+          AccessPath accessPath = event.accessPath;
+          address =
+              LibraHelpers.byteToHex(Uint8List.fromList(accessPath.address));
+          path = Uint8List.fromList(accessPath.path);
+        }
+
+        eventsList.add(new LibraTransactionEvent(
+            Uint8List.fromList(event.eventData),
+            BigInt.from(event.sequenceNumber.toInt()),
+            address: address,
+            path: path));
+      });
+    }
+    return new LibraSignedTransactionWithProof(libraSignedtransaction,
+        proof: signedTransactionWP.proof, events: eventsList);
+  }
+
+  static LibraTransaction decodeRawTransactionBytes(Uint8List rawTxnBytes) {
+    RawTransaction rawTxn = RawTransaction.fromBuffer(rawTxnBytes);
+    Program rawProgram = rawTxn.program;
+    List<LibraProgramArgument> arguments = [];
+    rawProgram.arguments.forEach((argument) {
+      arguments.add(new LibraProgramArgument(
+          argument.type, Uint8List.fromList(argument.data)));
+    });
+    List<Uint8List> modules = [];
+    rawProgram.modules.forEach((module) {
+      modules.add(Uint8List.fromList(module));
+    });
+    LibraProgram program = new LibraProgram(
+        Uint8List.fromList(rawProgram.code), arguments, modules);
+
+    LibraGasConstraint gasContraint = new LibraGasConstraint(
+        BigInt.from(rawTxn.gasUnitPrice.toInt()),
+        BigInt.from(rawTxn.maxGasAmount.toInt()));
+
+    return new LibraTransaction(
+      program,
+      gasContraint,
+      rawTxn.expirationTime.toInt(),
+      Uint8List.fromList(rawTxn.senderAccount),
+      rawTxn.sequenceNumber.toInt(),
+    );
   }
 
   static LibraVMStatusError decodeVMStatus(VMStatus vmStatus) {

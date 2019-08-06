@@ -14,9 +14,9 @@ const address2 =
 
 void main() {
   group('flutter_libra_core tests', () {
-
     test('Can turn a libra entropy into a mnemonic phrase and back', () {
-      List<String> expectedWordsOrdered = Mnemonic.generateMnemonic().split(' ');
+      List<String> expectedWordsOrdered =
+          Mnemonic.generateMnemonic().split(' ');
       String entropy = Mnemonic.mnemonicListToEntropy(expectedWordsOrdered);
       var list = Mnemonic.entropyToMnemonic(entropy);
       print('entropy: $entropy, list: $list');
@@ -95,23 +95,27 @@ void main() {
       LibraWallet wallet = new LibraWallet();
       LibraAccount sender = wallet.newAccount();
       LibraAccount recipient = wallet.newAccount();
-      print('sende from: ${sender.getAddress()} to ${recipient.getAddress()}');
+      print('send from: ${sender.getAddress()} to ${recipient.getAddress()}');
       String address = sender.getAddress();
       int amount = 1000000;
       await client.mintWithFaucetService(address, BigInt.from(amount),
           needWait: false);
       LibraAccountState senderState = await client.getAccountState(address);
-      print('sender state: ${senderState.balance}, ${senderState.sequenceNumber}');
       expect(senderState.balance, amount);
       LibraTransactionResponse response =
           await client.transferCoins(sender, recipient.getAddress(), amount);
       expect(response.acStatus, AdmissionControlStatusCode.Accepted);
       LibraAccountState recipientState =
           await client.getAccountState(recipient.getAddress());
-      senderState = await client.getAccountState(address);
       expect(recipientState.balance, amount);
-      print('recipient state: ${recipientState.balance}, ${recipientState.sequenceNumber}');
-      print('sender state: ${senderState.balance}, ${senderState.sequenceNumber}');
+      LibraSignedTransactionWithProof lastTransaction =
+          await client.getAccountTransaction(
+              address, BigInt.from(senderState.sequenceNumber));
+      expect(
+          LibraHelpers.byteToHex(lastTransaction.signedTransaction.publicKey),
+          LibraHelpers.byteToHex(sender.keyPair.getPublicKey()));
+      expect(lastTransaction.signedTransaction.transaction.sequenceNumber,
+          senderState.sequenceNumber);
     });
   });
 }

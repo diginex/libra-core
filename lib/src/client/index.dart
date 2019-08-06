@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc.dart';
 import 'package:http/http.dart' as http;
@@ -83,11 +84,12 @@ class LibraClient {
     String recipientAddress,
     int numCoins,
   ) async {
-    LibraAccountState senderAccountState = await getAccountState(sender.getAddress());
+    LibraAccountState senderAccountState =
+        await getAccountState(sender.getAddress());
     return execute(
         sender,
-        LibraTransaction.createTransfer(
-            recipientAddress, BigInt.from(numCoins), senderAccountState.sequenceNumber));
+        LibraTransaction.createTransfer(recipientAddress, BigInt.from(numCoins),
+            senderAccountState.sequenceNumber));
   }
 
   Future<LibraTransactionResponse> execute(
@@ -155,5 +157,34 @@ class LibraClient {
       }
     });
     return c.future;
+  }
+
+  Future<LibraSignedTransactionWithProof> getAccountTransaction(
+      String address, BigInt sequenceNumber,
+      {fetchEvents = true}) async {
+    UpdateToLatestLedgerRequest request = new UpdateToLatestLedgerRequest();
+    RequestItem requestItem = new RequestItem();
+    GetAccountTransactionBySequenceNumberRequest getTransactionRequest =
+        new GetAccountTransactionBySequenceNumberRequest();
+    getTransactionRequest.account = LibraHelpers.hexToBytes(address);
+    getTransactionRequest.sequenceNumber = Int64(sequenceNumber.toInt());
+    getTransactionRequest.fetchEvents = fetchEvents;
+    requestItem.getAccountTransactionBySequenceNumberRequest =
+        getTransactionRequest;
+    request.requestedItems.add(requestItem);
+
+    UpdateToLatestLedgerResponse updateToLatestLedgerResponse =
+        await _client.updateToLatestLedger(request);
+    List<ResponseItem> responseItems =
+        updateToLatestLedgerResponse.responseItems;
+    if (responseItems.length == 0) {
+      return null;
+    }
+
+    GetAccountTransactionBySequenceNumberResponse response =
+        responseItems[0].getAccountTransactionBySequenceNumberResponse;
+    SignedTransactionWithProof signedTransactionWP =
+        response.signedTransactionWithProof;
+    return ClientDecoder.decodeSignedTransactionWithProof(signedTransactionWP);
   }
 }
