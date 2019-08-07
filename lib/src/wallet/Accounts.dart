@@ -8,11 +8,11 @@ class LibraAccountState {
 
   LibraAccountState(
       this.authenticationKey,
-      this.balance,
-      this.receivedEventsCount,
-      this.sentEventsCount,
-      this.sequenceNumber,
-      this.delegatedWithdrawalCapability);
+      {this.balance = 0,
+      this.receivedEventsCount = 0,
+      this.sentEventsCount = 0,
+      this.sequenceNumber = 0,
+      this.delegatedWithdrawalCapability = true});
 }
 
 class LibraAccount {

@@ -84,10 +84,16 @@ void main() {
           '$address1$address2');
     });
 
-    test('test current state of account', () async {
+    test('Can get empty state of new account', () async {
       LibraClient client = new LibraClient();
-      LibraAccountState state = await client.getAccountState(address2);
-      print('balance: ${state.balance}');
+      String address = new LibraWallet().newAccount().getAddress();
+      LibraAccountState state = await client.getAccountState(address);
+      expect(LibraHelpers.byteToHex(state.authenticationKey), address);
+      expect(state.balance, 0);
+      expect(state.receivedEventsCount, 0);
+      expect(state.sentEventsCount, 0);
+      expect(state.sequenceNumber, 0);
+      expect(state.delegatedWithdrawalCapability, true);
     });
 
     test('test faucet and transfer', () async {

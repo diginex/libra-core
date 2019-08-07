@@ -27,13 +27,12 @@ class ClientDecoder {
       int receivedEvents = cursor.read64();
       int sentEvents = cursor.read64();
       int sequenceNumber = cursor.read64();
-      state[LibraHelpers.byteToHex(key)] = LibraAccountState(
-          address,
-          balance,
-          receivedEvents,
-          sentEvents,
-          sequenceNumber,
-          delegatedWithdrawalCapability);
+      state[LibraHelpers.byteToHex(key)] = new LibraAccountState(address,
+          balance: balance,
+          receivedEventsCount: receivedEvents,
+          sentEventsCount: sentEvents,
+          sequenceNumber: sequenceNumber,
+          delegatedWithdrawalCapability: delegatedWithdrawalCapability);
     }
     return state[PathValues.AccountStatePath];
   }

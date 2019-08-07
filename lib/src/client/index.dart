@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 import 'package:flutter_libra_core/flutter_libra_core.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
+import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/client/Decoder.dart';
 import 'package:flutter_libra_core/src/client/Encoder.dart';
 import 'package:flutter_libra_core/src/wallet/Accounts.dart';
@@ -62,7 +63,8 @@ class LibraClient {
   }
 
   Future<LibraAccountState> getAccountState(String address) async {
-    return (await getAccountStates([address]))[0];
+    List<LibraAccountState> states = await getAccountStates([address]);
+    return states.length > 0 ? states[0] : new LibraAccountState(LibraHelpers.hexToBytes(address));
   }
 
   Future<List<LibraAccountState>> getAccountStates(
