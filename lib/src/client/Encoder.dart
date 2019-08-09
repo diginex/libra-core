@@ -26,7 +26,7 @@ class ClientEncoder {
         Int64(transaction.gasContraint.gasUnitPrice.toInt());
     rawTransaction.maxGasAmount =
         Int64(transaction.gasContraint.maxGasAmount.toInt());
-    rawTransaction.sequenceNumber = Int64(transaction.sequenceNumber);
+    rawTransaction.sequenceNumber = Int64(transaction.sequenceNumber.toInt());
     rawTransaction.program = program;
     rawTransaction.senderAccount = HEX.decode(senderAccountAddress);
 

@@ -35,12 +35,12 @@ class LibraTransaction {
   LibraGasConstraint gasContraint;
   int expirationTime;
   Uint8List senderAddress;
-  int sequenceNumber;
+  BigInt sequenceNumber;
   LibraTransaction(this.program, this.gasContraint, this.expirationTime,
       this.senderAddress, this.sequenceNumber);
 
   static LibraTransaction createTransfer(
-      String recipientAddress, BigInt amount, int sequenceNumber) {
+      String recipientAddress, BigInt amount, BigInt sequenceNumber) {
     Uint8List amountBuffer =
         LibraHelpers.bigIntToFixLengthBytes(amount, 8, le: true);
     List<LibraProgramArgument> programArguments = [

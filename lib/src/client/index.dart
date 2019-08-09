@@ -166,7 +166,7 @@ class LibraClient {
         c.completeError(new StateError('timeout'));
       } else {
         var state = await getAccountState(accountAddress);
-        if (state.sequenceNumber > transactionSequenceNumber.toInt()) {
+        if (state.sequenceNumber > transactionSequenceNumber) {
           timer.cancel();
           c.complete();
         }

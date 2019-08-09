@@ -89,10 +89,10 @@ void main() {
       String address = new LibraWallet().newAccount().getAddress();
       LibraAccountState state = await client.getAccountState(address);
       expect(LibraHelpers.byteToHex(state.authenticationKey), address);
-      expect(state.balance, 0);
-      expect(state.receivedEventsCount, 0);
-      expect(state.sentEventsCount, 0);
-      expect(state.sequenceNumber, 0);
+      expect(state.balance, BigInt.zero);
+      expect(state.receivedEventsCount, BigInt.zero);
+      expect(state.sentEventsCount, BigInt.zero);
+      expect(state.sequenceNumber, BigInt.zero);
       expect(state.delegatedWithdrawalCapability, true);
     });
 
@@ -124,9 +124,8 @@ void main() {
       print(
           'charley state: ${charleyState.balance}, ${charleyState.sequenceNumber}');
 
-      LibraSignedTransactionWithProof lastTransaction =
-          await client.getAccountTransaction(
-              aliceAddress, BigInt.from(aliceState.sequenceNumber));
+      LibraSignedTransactionWithProof lastTransaction = await client
+          .getAccountTransaction(aliceAddress, aliceState.sequenceNumber);
       print('${lastTransaction.signedTransaction.transaction.sequenceNumber}');
 
       expect(

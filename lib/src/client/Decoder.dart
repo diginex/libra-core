@@ -28,10 +28,10 @@ class ClientDecoder {
       int sentEvents = cursor.read64();
       int sequenceNumber = cursor.read64();
       state[LibraHelpers.byteToHex(key)] = new LibraAccountState(address,
-          balance: balance,
-          receivedEventsCount: receivedEvents,
-          sentEventsCount: sentEvents,
-          sequenceNumber: sequenceNumber,
+          balance: BigInt.from(balance),
+          receivedEventsCount: BigInt.from(receivedEvents),
+          sentEventsCount: BigInt.from(sentEvents),
+          sequenceNumber: BigInt.from(sequenceNumber),
           delegatedWithdrawalCapability: delegatedWithdrawalCapability);
     }
     return state[PathValues.AccountStatePath];
@@ -98,7 +98,7 @@ class ClientDecoder {
       gasContraint,
       rawTxn.expirationTime.toInt(),
       Uint8List.fromList(rawTxn.senderAccount),
-      rawTxn.sequenceNumber.toInt(),
+      BigInt.from(rawTxn.sequenceNumber.toInt()),
     );
   }
 
