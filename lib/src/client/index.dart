@@ -139,7 +139,7 @@ class LibraClient {
     String sequenceNumber = await compute(_faucet, {'url': url});
     if (needWait) {
       await waitForConfirmation(
-          address, BigInt.parse(sequenceNumber), maxIterations);
+          MintAccount, BigInt.parse(sequenceNumber), maxIterations);
     }
     return sequenceNumber;
   }
@@ -147,7 +147,7 @@ class LibraClient {
   static Future<String> _faucet(Map<String, dynamic> params) async {
     http.Client client = http.Client();
     Uri url = Uri.parse(params['url']);
-    var response = await client.get(url);
+    var response = await client.post(url);
     int statusCode = response.statusCode;
     String data = response.body.toString();
     if (statusCode != 200) {

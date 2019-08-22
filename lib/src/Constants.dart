@@ -39,7 +39,7 @@ class SeedValues {
 }
 
 const String MintAccount =
-    '0000000000000000000000000000000000000000000000000000000000000000';
+    '000000000000000000000000000000000000000000000000000000000a550c18';
 
 // https://github.com/libra/libra/blob/master/language/vm/vm_genesis/src/lib.rs#L239
 class TransactionType {
