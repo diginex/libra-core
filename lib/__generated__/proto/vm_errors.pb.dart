@@ -121,30 +121,30 @@ class VMVerificationStatus extends $pb.GeneratedMessage {
   void clearDependencyId() => clearField(5);
 }
 
-class AssertionFailure extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssertionFailure', package: const $pb.PackageName('types'))
-    ..a<Int64>(1, 'assertionErrorCode', $pb.PbFieldType.OU6, Int64.ZERO)
+class Aborted extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Aborted', package: const $pb.PackageName('types'))
+    ..a<Int64>(1, 'abortedErrorCode', $pb.PbFieldType.OU6, Int64.ZERO)
     ..hasRequiredFields = false
   ;
 
-  AssertionFailure._() : super();
-  factory AssertionFailure() => create();
-  factory AssertionFailure.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AssertionFailure.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  AssertionFailure clone() => AssertionFailure()..mergeFromMessage(this);
-  AssertionFailure copyWith(void Function(AssertionFailure) updates) => super.copyWith((message) => updates(message as AssertionFailure));
+  Aborted._() : super();
+  factory Aborted() => create();
+  factory Aborted.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Aborted.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Aborted clone() => Aborted()..mergeFromMessage(this);
+  Aborted copyWith(void Function(Aborted) updates) => super.copyWith((message) => updates(message as Aborted));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AssertionFailure create() => AssertionFailure._();
-  AssertionFailure createEmptyInstance() => create();
-  static $pb.PbList<AssertionFailure> createRepeated() => $pb.PbList<AssertionFailure>();
-  static AssertionFailure getDefault() => _defaultInstance ??= create()..freeze();
-  static AssertionFailure _defaultInstance;
+  static Aborted create() => Aborted._();
+  Aborted createEmptyInstance() => create();
+  static $pb.PbList<Aborted> createRepeated() => $pb.PbList<Aborted>();
+  static Aborted getDefault() => _defaultInstance ??= create()..freeze();
+  static Aborted _defaultInstance;
 
-  Int64 get assertionErrorCode => $_getI64(0);
-  set assertionErrorCode(Int64 v) { $_setInt64(0, v); }
-  $core.bool hasAssertionErrorCode() => $_has(0);
-  void clearAssertionErrorCode() => clearField(1);
+  Int64 get abortedErrorCode => $_getI64(0);
+  set abortedErrorCode(Int64 v) { $_setInt64(0, v); }
+  $core.bool hasAbortedErrorCode() => $_has(0);
+  void clearAbortedErrorCode() => clearField(1);
 }
 
 class ArithmeticError extends $pb.GeneratedMessage {
@@ -201,7 +201,7 @@ class DynamicReferenceError extends $pb.GeneratedMessage {
 
 enum ExecutionStatus_ExecutionStatus {
   runtimeStatus, 
-  assertionFailure, 
+  aborted, 
   arithmeticError, 
   referenceError, 
   notSet
@@ -210,7 +210,7 @@ enum ExecutionStatus_ExecutionStatus {
 class ExecutionStatus extends $pb.GeneratedMessage {
   static const $core.Map<$core.int, ExecutionStatus_ExecutionStatus> _ExecutionStatus_ExecutionStatusByTag = {
     1 : ExecutionStatus_ExecutionStatus.runtimeStatus,
-    2 : ExecutionStatus_ExecutionStatus.assertionFailure,
+    2 : ExecutionStatus_ExecutionStatus.aborted,
     3 : ExecutionStatus_ExecutionStatus.arithmeticError,
     4 : ExecutionStatus_ExecutionStatus.referenceError,
     0 : ExecutionStatus_ExecutionStatus.notSet
@@ -218,7 +218,7 @@ class ExecutionStatus extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExecutionStatus', package: const $pb.PackageName('types'))
     ..oo(0, [1, 2, 3, 4])
     ..e<RuntimeStatus>(1, 'runtimeStatus', $pb.PbFieldType.OE, RuntimeStatus.UnknownRuntimeStatus, RuntimeStatus.valueOf, RuntimeStatus.values)
-    ..a<AssertionFailure>(2, 'assertionFailure', $pb.PbFieldType.OM, AssertionFailure.getDefault, AssertionFailure.create)
+    ..a<Aborted>(2, 'aborted', $pb.PbFieldType.OM, Aborted.getDefault, Aborted.create)
     ..a<ArithmeticError>(3, 'arithmeticError', $pb.PbFieldType.OM, ArithmeticError.getDefault, ArithmeticError.create)
     ..a<DynamicReferenceError>(4, 'referenceError', $pb.PbFieldType.OM, DynamicReferenceError.getDefault, DynamicReferenceError.create)
     ..hasRequiredFields = false
@@ -246,10 +246,10 @@ class ExecutionStatus extends $pb.GeneratedMessage {
   $core.bool hasRuntimeStatus() => $_has(0);
   void clearRuntimeStatus() => clearField(1);
 
-  AssertionFailure get assertionFailure => $_getN(1);
-  set assertionFailure(AssertionFailure v) { setField(2, v); }
-  $core.bool hasAssertionFailure() => $_has(1);
-  void clearAssertionFailure() => clearField(2);
+  Aborted get aborted => $_getN(1);
+  set aborted(Aborted v) { setField(2, v); }
+  $core.bool hasAborted() => $_has(1);
+  void clearAborted() => clearField(2);
 
   ArithmeticError get arithmeticError => $_getN(2);
   set arithmeticError(ArithmeticError v) { setField(3, v); }

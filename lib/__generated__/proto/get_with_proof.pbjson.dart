@@ -8,14 +8,7 @@
 const UpdateToLatestLedgerRequest$json = const {
   '1': 'UpdateToLatestLedgerRequest',
   '2': const [
-    const {
-      '1': 'client_known_version',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'clientKnownVersion',
-    },
+    const {'1': 'client_known_version', '3': 1, '4': 1, '5': 4, '10': 'clientKnownVersion'},
     const {'1': 'requested_items', '3': 2, '4': 3, '5': 11, '6': '.types.RequestItem', '10': 'requestedItems'},
   ],
 };
@@ -73,14 +66,7 @@ const GetAccountTransactionBySequenceNumberRequest$json = const {
   '1': 'GetAccountTransactionBySequenceNumberRequest',
   '2': const [
     const {'1': 'account', '3': 1, '4': 1, '5': 12, '10': 'account'},
-    const {
-      '1': 'sequence_number',
-      '3': 2,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'sequenceNumber',
-    },
+    const {'1': 'sequence_number', '3': 2, '4': 1, '5': 4, '10': 'sequenceNumber'},
     const {'1': 'fetch_events', '3': 3, '4': 1, '5': 8, '10': 'fetchEvents'},
   ],
 };
@@ -97,23 +83,9 @@ const GetEventsByEventAccessPathRequest$json = const {
   '1': 'GetEventsByEventAccessPathRequest',
   '2': const [
     const {'1': 'access_path', '3': 1, '4': 1, '5': 11, '6': '.types.AccessPath', '10': 'accessPath'},
-    const {
-      '1': 'start_event_seq_num',
-      '3': 2,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'startEventSeqNum',
-    },
+    const {'1': 'start_event_seq_num', '3': 2, '4': 1, '5': 4, '10': 'startEventSeqNum'},
     const {'1': 'ascending', '3': 3, '4': 1, '5': 8, '10': 'ascending'},
-    const {
-      '1': 'limit',
-      '3': 4,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'limit',
-    },
+    const {'1': 'limit', '3': 4, '4': 1, '5': 4, '10': 'limit'},
   ],
 };
 
@@ -128,22 +100,8 @@ const GetEventsByEventAccessPathResponse$json = const {
 const GetTransactionsRequest$json = const {
   '1': 'GetTransactionsRequest',
   '2': const [
-    const {
-      '1': 'start_version',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'startVersion',
-    },
-    const {
-      '1': 'limit',
-      '3': 2,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'limit',
-    },
+    const {'1': 'start_version', '3': 1, '4': 1, '5': 4, '10': 'startVersion'},
+    const {'1': 'limit', '3': 2, '4': 1, '5': 4, '10': 'limit'},
     const {'1': 'fetch_events', '3': 3, '4': 1, '5': 8, '10': 'fetchEvents'},
   ],
 };

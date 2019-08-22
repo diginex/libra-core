@@ -16,7 +16,7 @@ message RawTransaction {
     // Sender's account address
     bytes sender_account = 1;
     // Sequence number of this transaction corresponding to sender's account.
-    uint64 sequence_number = 2 [jstype = JS_STRING];
+    uint64 sequence_number = 2;
     oneof payload {
         // The transaction script to execute.
         Program program = 3;
@@ -24,17 +24,21 @@ message RawTransaction {
         // This bypasses the rules for regular transactions so will typically be
         // rejected. Only under special circumstances will it be accepted.
         WriteSet write_set = 4;
+        // The transaction script to execute.
+        Script script = 8;
+        // The MOVE Module to publish.
+        Module module = 9;
     }
     // Maximal total gas specified by wallet to spend for this transaction.
-    uint64 max_gas_amount = 5 [jstype = JS_STRING];
+    uint64 max_gas_amount = 5;
     // The price to be paid for each unit of gas.
-    uint64 gas_unit_price = 6 [jstype = JS_STRING];
+    uint64 gas_unit_price = 6;
     // Expiration time for this transaction.  If storage is queried and
     // the time returned is greater than or equal to this time and this
     // transaction has not been included, you can be certain that it will
     // never be included.
     // If set to 0, there will be no expiration time
-    uint64 expiration_time = 7 [jstype = JS_STRING];
+    uint64 expiration_time = 7;
 }
 
 // The code for the transaction to execute
@@ -42,6 +46,12 @@ message Program {
     bytes code = 1;
     repeated TransactionArgument arguments = 2;
     repeated bytes modules = 3;
+}
+
+// The code for the transaction to execute
+message Script {
+    bytes code = 1;
+    repeated TransactionArgument arguments = 2;
 }
 
 // An argument to the transaction if the transaction takes arguments
@@ -54,6 +64,11 @@ message TransactionArgument {
     }
     ArgType type = 1;
     bytes data = 2;
+}
+
+// A Move Module to publish
+message Module {
+    bytes code = 1;
 }
 
 // A generic structure that represents signed RawTransaction
@@ -72,7 +87,7 @@ message SignedTransaction {
 
 message SignedTransactionWithProof {
     // The version of the returned signed transaction.
-    uint64 version = 1 [jstype = JS_STRING];
+    uint64 version = 1;
 
     // The transaction itself.
     SignedTransaction signed_transaction = 2;
@@ -138,7 +153,7 @@ message TransactionToCommit {
     // Events yielded by the transaction.
     repeated Event events = 3;
     // The amount of gas used.
-    uint64 gas_used = 4 [jstype = JS_STRING];
+    uint64 gas_used = 4;
 }
 
 // A list of consecutive transactions with proof. This is mainly used for state

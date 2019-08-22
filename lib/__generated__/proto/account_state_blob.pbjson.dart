@@ -15,14 +15,7 @@ const AccountStateBlob$json = const {
 const AccountStateWithProof$json = const {
   '1': 'AccountStateWithProof',
   '2': const [
-    const {
-      '1': 'version',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'version',
-    },
+    const {'1': 'version', '3': 1, '4': 1, '5': 4, '10': 'version'},
     const {'1': 'blob', '3': 2, '4': 1, '5': 11, '6': '.types.AccountStateBlob', '10': 'blob'},
     const {'1': 'proof', '3': 3, '4': 1, '5': 11, '6': '.types.AccountStateProof', '10': 'proof'},
   ],

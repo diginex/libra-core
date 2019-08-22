@@ -8,33 +8,12 @@
 const LedgerInfo$json = const {
   '1': 'LedgerInfo',
   '2': const [
-    const {
-      '1': 'version',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'version',
-    },
+    const {'1': 'version', '3': 1, '4': 1, '5': 4, '10': 'version'},
     const {'1': 'transaction_accumulator_hash', '3': 2, '4': 1, '5': 12, '10': 'transactionAccumulatorHash'},
     const {'1': 'consensus_data_hash', '3': 3, '4': 1, '5': 12, '10': 'consensusDataHash'},
     const {'1': 'consensus_block_id', '3': 4, '4': 1, '5': 12, '10': 'consensusBlockId'},
-    const {
-      '1': 'epoch_num',
-      '3': 5,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'epochNum',
-    },
-    const {
-      '1': 'timestamp_usecs',
-      '3': 6,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'timestampUsecs',
-    },
+    const {'1': 'epoch_num', '3': 5, '4': 1, '5': 4, '10': 'epochNum'},
+    const {'1': 'timestamp_usecs', '3': 6, '4': 1, '5': 4, '10': 'timestampUsecs'},
   ],
 };
 

@@ -17,40 +17,14 @@ const RawTransaction$json = const {
   '1': 'RawTransaction',
   '2': const [
     const {'1': 'sender_account', '3': 1, '4': 1, '5': 12, '10': 'senderAccount'},
-    const {
-      '1': 'sequence_number',
-      '3': 2,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'sequenceNumber',
-    },
+    const {'1': 'sequence_number', '3': 2, '4': 1, '5': 4, '10': 'sequenceNumber'},
     const {'1': 'program', '3': 3, '4': 1, '5': 11, '6': '.types.Program', '9': 0, '10': 'program'},
     const {'1': 'write_set', '3': 4, '4': 1, '5': 11, '6': '.types.WriteSet', '9': 0, '10': 'writeSet'},
-    const {
-      '1': 'max_gas_amount',
-      '3': 5,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'maxGasAmount',
-    },
-    const {
-      '1': 'gas_unit_price',
-      '3': 6,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'gasUnitPrice',
-    },
-    const {
-      '1': 'expiration_time',
-      '3': 7,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'expirationTime',
-    },
+    const {'1': 'script', '3': 8, '4': 1, '5': 11, '6': '.types.Script', '9': 0, '10': 'script'},
+    const {'1': 'module', '3': 9, '4': 1, '5': 11, '6': '.types.Module', '9': 0, '10': 'module'},
+    const {'1': 'max_gas_amount', '3': 5, '4': 1, '5': 4, '10': 'maxGasAmount'},
+    const {'1': 'gas_unit_price', '3': 6, '4': 1, '5': 4, '10': 'gasUnitPrice'},
+    const {'1': 'expiration_time', '3': 7, '4': 1, '5': 4, '10': 'expirationTime'},
   ],
   '8': const [
     const {'1': 'payload'},
@@ -63,6 +37,14 @@ const Program$json = const {
     const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
     const {'1': 'arguments', '3': 2, '4': 3, '5': 11, '6': '.types.TransactionArgument', '10': 'arguments'},
     const {'1': 'modules', '3': 3, '4': 3, '5': 12, '10': 'modules'},
+  ],
+};
+
+const Script$json = const {
+  '1': 'Script',
+  '2': const [
+    const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
+    const {'1': 'arguments', '3': 2, '4': 3, '5': 11, '6': '.types.TransactionArgument', '10': 'arguments'},
   ],
 };
 
@@ -85,6 +67,13 @@ const TransactionArgument_ArgType$json = const {
   ],
 };
 
+const Module$json = const {
+  '1': 'Module',
+  '2': const [
+    const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
+  ],
+};
+
 const SignedTransaction$json = const {
   '1': 'SignedTransaction',
   '2': const [
@@ -97,14 +86,7 @@ const SignedTransaction$json = const {
 const SignedTransactionWithProof$json = const {
   '1': 'SignedTransactionWithProof',
   '2': const [
-    const {
-      '1': 'version',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'version',
-    },
+    const {'1': 'version', '3': 1, '4': 1, '5': 4, '10': 'version'},
     const {'1': 'signed_transaction', '3': 2, '4': 1, '5': 11, '6': '.types.SignedTransaction', '10': 'signedTransaction'},
     const {'1': 'proof', '3': 3, '4': 1, '5': 11, '6': '.types.SignedTransactionProof', '10': 'proof'},
     const {'1': 'events', '3': 4, '4': 1, '5': 11, '6': '.types.EventsList', '10': 'events'},
@@ -150,14 +132,7 @@ const TransactionToCommit$json = const {
     const {'1': 'signed_txn', '3': 1, '4': 1, '5': 11, '6': '.types.SignedTransaction', '10': 'signedTxn'},
     const {'1': 'account_states', '3': 2, '4': 3, '5': 11, '6': '.types.AccountState', '10': 'accountStates'},
     const {'1': 'events', '3': 3, '4': 3, '5': 11, '6': '.types.Event', '10': 'events'},
-    const {
-      '1': 'gas_used',
-      '3': 4,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'gasUsed',
-    },
+    const {'1': 'gas_used', '3': 4, '4': 1, '5': 4, '10': 'gasUsed'},
   ],
 };
 

@@ -137,9 +137,9 @@ class ClientDecoder {
       if (status.hasRuntimeStatus()) {
         executionError =
             new LibraExecutionError(LibraExecutionErrorType.RUNTIME_STATUS);
-      } else if (status.hasAssertionFailure()) {
+      } else if (status.hasAborted()) {
         executionError =
-            new LibraExecutionError(LibraExecutionErrorType.ASSERTION_FAILURE);
+            new LibraExecutionError(LibraExecutionErrorType.ABORTED_FAILURE);
       } else if (status.hasArithmeticError()) {
         executionError =
             new LibraExecutionError(LibraExecutionErrorType.ARITHMETIC_ERROR);

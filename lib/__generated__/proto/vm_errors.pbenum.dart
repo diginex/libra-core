@@ -57,76 +57,84 @@ class VMValidationStatusCode extends $pb.ProtobufEnum {
 class VMVerificationErrorKind extends $pb.ProtobufEnum {
   static const VMVerificationErrorKind UnknownVerificationError = VMVerificationErrorKind._(0, 'UnknownVerificationError');
   static const VMVerificationErrorKind IndexOutOfBounds = VMVerificationErrorKind._(1, 'IndexOutOfBounds');
-  static const VMVerificationErrorKind RangeOutOfBounds = VMVerificationErrorKind._(2, 'RangeOutOfBounds');
-  static const VMVerificationErrorKind InvalidSignatureToken = VMVerificationErrorKind._(3, 'InvalidSignatureToken');
-  static const VMVerificationErrorKind InvalidFieldDefReference = VMVerificationErrorKind._(4, 'InvalidFieldDefReference');
-  static const VMVerificationErrorKind RecursiveStructDefinition = VMVerificationErrorKind._(5, 'RecursiveStructDefinition');
-  static const VMVerificationErrorKind InvalidResourceField = VMVerificationErrorKind._(6, 'InvalidResourceField');
-  static const VMVerificationErrorKind InvalidFallThrough = VMVerificationErrorKind._(7, 'InvalidFallThrough');
-  static const VMVerificationErrorKind JoinFailure = VMVerificationErrorKind._(8, 'JoinFailure');
-  static const VMVerificationErrorKind NegativeStackSizeWithinBlock = VMVerificationErrorKind._(9, 'NegativeStackSizeWithinBlock');
-  static const VMVerificationErrorKind UnbalancedStack = VMVerificationErrorKind._(10, 'UnbalancedStack');
-  static const VMVerificationErrorKind InvalidMainFunctionSignature = VMVerificationErrorKind._(11, 'InvalidMainFunctionSignature');
-  static const VMVerificationErrorKind DuplicateElement = VMVerificationErrorKind._(12, 'DuplicateElement');
-  static const VMVerificationErrorKind InvalidModuleHandle = VMVerificationErrorKind._(13, 'InvalidModuleHandle');
-  static const VMVerificationErrorKind UnimplementedHandle = VMVerificationErrorKind._(14, 'UnimplementedHandle');
-  static const VMVerificationErrorKind InconsistentFields = VMVerificationErrorKind._(15, 'InconsistentFields');
-  static const VMVerificationErrorKind UnusedFields = VMVerificationErrorKind._(16, 'UnusedFields');
-  static const VMVerificationErrorKind LookupFailed = VMVerificationErrorKind._(17, 'LookupFailed');
-  static const VMVerificationErrorKind VisibilityMismatch = VMVerificationErrorKind._(18, 'VisibilityMismatch');
-  static const VMVerificationErrorKind TypeResolutionFailure = VMVerificationErrorKind._(19, 'TypeResolutionFailure');
-  static const VMVerificationErrorKind TypeMismatch = VMVerificationErrorKind._(20, 'TypeMismatch');
-  static const VMVerificationErrorKind MissingDependency = VMVerificationErrorKind._(21, 'MissingDependency');
-  static const VMVerificationErrorKind PopReferenceError = VMVerificationErrorKind._(22, 'PopReferenceError');
-  static const VMVerificationErrorKind PopResourceError = VMVerificationErrorKind._(23, 'PopResourceError');
-  static const VMVerificationErrorKind ReleaseRefTypeMismatchError = VMVerificationErrorKind._(24, 'ReleaseRefTypeMismatchError');
-  static const VMVerificationErrorKind BrTypeMismatchError = VMVerificationErrorKind._(25, 'BrTypeMismatchError');
-  static const VMVerificationErrorKind AssertTypeMismatchError = VMVerificationErrorKind._(26, 'AssertTypeMismatchError');
-  static const VMVerificationErrorKind StLocTypeMismatchError = VMVerificationErrorKind._(27, 'StLocTypeMismatchError');
-  static const VMVerificationErrorKind StLocUnsafeToDestroyError = VMVerificationErrorKind._(28, 'StLocUnsafeToDestroyError');
-  static const VMVerificationErrorKind RetUnsafeToDestroyError = VMVerificationErrorKind._(29, 'RetUnsafeToDestroyError');
-  static const VMVerificationErrorKind RetTypeMismatchError = VMVerificationErrorKind._(30, 'RetTypeMismatchError');
-  static const VMVerificationErrorKind FreezeRefTypeMismatchError = VMVerificationErrorKind._(31, 'FreezeRefTypeMismatchError');
-  static const VMVerificationErrorKind FreezeRefExistsMutableBorrowError = VMVerificationErrorKind._(32, 'FreezeRefExistsMutableBorrowError');
-  static const VMVerificationErrorKind BorrowFieldTypeMismatchError = VMVerificationErrorKind._(33, 'BorrowFieldTypeMismatchError');
-  static const VMVerificationErrorKind BorrowFieldBadFieldError = VMVerificationErrorKind._(34, 'BorrowFieldBadFieldError');
-  static const VMVerificationErrorKind BorrowFieldExistsMutableBorrowError = VMVerificationErrorKind._(35, 'BorrowFieldExistsMutableBorrowError');
-  static const VMVerificationErrorKind CopyLocUnavailableError = VMVerificationErrorKind._(36, 'CopyLocUnavailableError');
-  static const VMVerificationErrorKind CopyLocResourceError = VMVerificationErrorKind._(37, 'CopyLocResourceError');
-  static const VMVerificationErrorKind CopyLocExistsBorrowError = VMVerificationErrorKind._(38, 'CopyLocExistsBorrowError');
-  static const VMVerificationErrorKind MoveLocUnavailableError = VMVerificationErrorKind._(39, 'MoveLocUnavailableError');
-  static const VMVerificationErrorKind MoveLocExistsBorrowError = VMVerificationErrorKind._(40, 'MoveLocExistsBorrowError');
-  static const VMVerificationErrorKind BorrowLocReferenceError = VMVerificationErrorKind._(41, 'BorrowLocReferenceError');
-  static const VMVerificationErrorKind BorrowLocUnavailableError = VMVerificationErrorKind._(42, 'BorrowLocUnavailableError');
-  static const VMVerificationErrorKind BorrowLocExistsBorrowError = VMVerificationErrorKind._(43, 'BorrowLocExistsBorrowError');
-  static const VMVerificationErrorKind CallTypeMismatchError = VMVerificationErrorKind._(44, 'CallTypeMismatchError');
-  static const VMVerificationErrorKind CallBorrowedMutableReferenceError = VMVerificationErrorKind._(45, 'CallBorrowedMutableReferenceError');
-  static const VMVerificationErrorKind PackTypeMismatchError = VMVerificationErrorKind._(46, 'PackTypeMismatchError');
-  static const VMVerificationErrorKind UnpackTypeMismatchError = VMVerificationErrorKind._(47, 'UnpackTypeMismatchError');
-  static const VMVerificationErrorKind ReadRefTypeMismatchError = VMVerificationErrorKind._(48, 'ReadRefTypeMismatchError');
-  static const VMVerificationErrorKind ReadRefResourceError = VMVerificationErrorKind._(49, 'ReadRefResourceError');
-  static const VMVerificationErrorKind ReadRefExistsMutableBorrowError = VMVerificationErrorKind._(50, 'ReadRefExistsMutableBorrowError');
-  static const VMVerificationErrorKind WriteRefTypeMismatchError = VMVerificationErrorKind._(51, 'WriteRefTypeMismatchError');
-  static const VMVerificationErrorKind WriteRefResourceError = VMVerificationErrorKind._(52, 'WriteRefResourceError');
-  static const VMVerificationErrorKind WriteRefExistsBorrowError = VMVerificationErrorKind._(53, 'WriteRefExistsBorrowError');
-  static const VMVerificationErrorKind WriteRefNoMutableReferenceError = VMVerificationErrorKind._(54, 'WriteRefNoMutableReferenceError');
-  static const VMVerificationErrorKind IntegerOpTypeMismatchError = VMVerificationErrorKind._(55, 'IntegerOpTypeMismatchError');
-  static const VMVerificationErrorKind BooleanOpTypeMismatchError = VMVerificationErrorKind._(56, 'BooleanOpTypeMismatchError');
-  static const VMVerificationErrorKind EqualityOpTypeMismatchError = VMVerificationErrorKind._(57, 'EqualityOpTypeMismatchError');
-  static const VMVerificationErrorKind ExistsResourceTypeMismatchError = VMVerificationErrorKind._(58, 'ExistsResourceTypeMismatchError');
-  static const VMVerificationErrorKind BorrowGlobalTypeMismatchError = VMVerificationErrorKind._(59, 'BorrowGlobalTypeMismatchError');
-  static const VMVerificationErrorKind BorrowGlobalNoResourceError = VMVerificationErrorKind._(60, 'BorrowGlobalNoResourceError');
-  static const VMVerificationErrorKind MoveFromTypeMismatchError = VMVerificationErrorKind._(61, 'MoveFromTypeMismatchError');
-  static const VMVerificationErrorKind MoveFromNoResourceError = VMVerificationErrorKind._(62, 'MoveFromNoResourceError');
-  static const VMVerificationErrorKind MoveToSenderTypeMismatchError = VMVerificationErrorKind._(63, 'MoveToSenderTypeMismatchError');
-  static const VMVerificationErrorKind MoveToSenderNoResourceError = VMVerificationErrorKind._(64, 'MoveToSenderNoResourceError');
-  static const VMVerificationErrorKind CreateAccountTypeMismatchError = VMVerificationErrorKind._(65, 'CreateAccountTypeMismatchError');
-  static const VMVerificationErrorKind ModuleAddressDoesNotMatchSender = VMVerificationErrorKind._(66, 'ModuleAddressDoesNotMatchSender');
-  static const VMVerificationErrorKind NoModuleHandles = VMVerificationErrorKind._(67, 'NoModuleHandles');
+  static const VMVerificationErrorKind CodeUnitIndexOutOfBounds = VMVerificationErrorKind._(2, 'CodeUnitIndexOutOfBounds');
+  static const VMVerificationErrorKind RangeOutOfBounds = VMVerificationErrorKind._(3, 'RangeOutOfBounds');
+  static const VMVerificationErrorKind InvalidSignatureToken = VMVerificationErrorKind._(4, 'InvalidSignatureToken');
+  static const VMVerificationErrorKind InvalidFieldDefReference = VMVerificationErrorKind._(5, 'InvalidFieldDefReference');
+  static const VMVerificationErrorKind RecursiveStructDefinition = VMVerificationErrorKind._(6, 'RecursiveStructDefinition');
+  static const VMVerificationErrorKind InvalidResourceField = VMVerificationErrorKind._(7, 'InvalidResourceField');
+  static const VMVerificationErrorKind InvalidFallThrough = VMVerificationErrorKind._(8, 'InvalidFallThrough');
+  static const VMVerificationErrorKind JoinFailure = VMVerificationErrorKind._(9, 'JoinFailure');
+  static const VMVerificationErrorKind NegativeStackSizeWithinBlock = VMVerificationErrorKind._(10, 'NegativeStackSizeWithinBlock');
+  static const VMVerificationErrorKind UnbalancedStack = VMVerificationErrorKind._(11, 'UnbalancedStack');
+  static const VMVerificationErrorKind InvalidMainFunctionSignature = VMVerificationErrorKind._(12, 'InvalidMainFunctionSignature');
+  static const VMVerificationErrorKind DuplicateElement = VMVerificationErrorKind._(13, 'DuplicateElement');
+  static const VMVerificationErrorKind InvalidModuleHandle = VMVerificationErrorKind._(14, 'InvalidModuleHandle');
+  static const VMVerificationErrorKind UnimplementedHandle = VMVerificationErrorKind._(15, 'UnimplementedHandle');
+  static const VMVerificationErrorKind InconsistentFields = VMVerificationErrorKind._(16, 'InconsistentFields');
+  static const VMVerificationErrorKind UnusedFields = VMVerificationErrorKind._(17, 'UnusedFields');
+  static const VMVerificationErrorKind LookupFailed = VMVerificationErrorKind._(18, 'LookupFailed');
+  static const VMVerificationErrorKind VisibilityMismatch = VMVerificationErrorKind._(19, 'VisibilityMismatch');
+  static const VMVerificationErrorKind TypeResolutionFailure = VMVerificationErrorKind._(20, 'TypeResolutionFailure');
+  static const VMVerificationErrorKind TypeMismatch = VMVerificationErrorKind._(21, 'TypeMismatch');
+  static const VMVerificationErrorKind MissingDependency = VMVerificationErrorKind._(22, 'MissingDependency');
+  static const VMVerificationErrorKind PopReferenceError = VMVerificationErrorKind._(23, 'PopReferenceError');
+  static const VMVerificationErrorKind PopResourceError = VMVerificationErrorKind._(24, 'PopResourceError');
+  static const VMVerificationErrorKind ReleaseRefTypeMismatchError = VMVerificationErrorKind._(25, 'ReleaseRefTypeMismatchError');
+  static const VMVerificationErrorKind BrTypeMismatchError = VMVerificationErrorKind._(26, 'BrTypeMismatchError');
+  static const VMVerificationErrorKind AbortTypeMismatchError = VMVerificationErrorKind._(27, 'AbortTypeMismatchError');
+  static const VMVerificationErrorKind StLocTypeMismatchError = VMVerificationErrorKind._(28, 'StLocTypeMismatchError');
+  static const VMVerificationErrorKind StLocUnsafeToDestroyError = VMVerificationErrorKind._(29, 'StLocUnsafeToDestroyError');
+  static const VMVerificationErrorKind RetUnsafeToDestroyError = VMVerificationErrorKind._(30, 'RetUnsafeToDestroyError');
+  static const VMVerificationErrorKind RetTypeMismatchError = VMVerificationErrorKind._(31, 'RetTypeMismatchError');
+  static const VMVerificationErrorKind FreezeRefTypeMismatchError = VMVerificationErrorKind._(32, 'FreezeRefTypeMismatchError');
+  static const VMVerificationErrorKind FreezeRefExistsMutableBorrowError = VMVerificationErrorKind._(33, 'FreezeRefExistsMutableBorrowError');
+  static const VMVerificationErrorKind BorrowFieldTypeMismatchError = VMVerificationErrorKind._(34, 'BorrowFieldTypeMismatchError');
+  static const VMVerificationErrorKind BorrowFieldBadFieldError = VMVerificationErrorKind._(35, 'BorrowFieldBadFieldError');
+  static const VMVerificationErrorKind BorrowFieldExistsMutableBorrowError = VMVerificationErrorKind._(36, 'BorrowFieldExistsMutableBorrowError');
+  static const VMVerificationErrorKind CopyLocUnavailableError = VMVerificationErrorKind._(37, 'CopyLocUnavailableError');
+  static const VMVerificationErrorKind CopyLocResourceError = VMVerificationErrorKind._(38, 'CopyLocResourceError');
+  static const VMVerificationErrorKind CopyLocExistsBorrowError = VMVerificationErrorKind._(39, 'CopyLocExistsBorrowError');
+  static const VMVerificationErrorKind MoveLocUnavailableError = VMVerificationErrorKind._(40, 'MoveLocUnavailableError');
+  static const VMVerificationErrorKind MoveLocExistsBorrowError = VMVerificationErrorKind._(41, 'MoveLocExistsBorrowError');
+  static const VMVerificationErrorKind BorrowLocReferenceError = VMVerificationErrorKind._(42, 'BorrowLocReferenceError');
+  static const VMVerificationErrorKind BorrowLocUnavailableError = VMVerificationErrorKind._(43, 'BorrowLocUnavailableError');
+  static const VMVerificationErrorKind BorrowLocExistsBorrowError = VMVerificationErrorKind._(44, 'BorrowLocExistsBorrowError');
+  static const VMVerificationErrorKind CallTypeMismatchError = VMVerificationErrorKind._(45, 'CallTypeMismatchError');
+  static const VMVerificationErrorKind CallBorrowedMutableReferenceError = VMVerificationErrorKind._(46, 'CallBorrowedMutableReferenceError');
+  static const VMVerificationErrorKind PackTypeMismatchError = VMVerificationErrorKind._(47, 'PackTypeMismatchError');
+  static const VMVerificationErrorKind UnpackTypeMismatchError = VMVerificationErrorKind._(48, 'UnpackTypeMismatchError');
+  static const VMVerificationErrorKind ReadRefTypeMismatchError = VMVerificationErrorKind._(49, 'ReadRefTypeMismatchError');
+  static const VMVerificationErrorKind ReadRefResourceError = VMVerificationErrorKind._(50, 'ReadRefResourceError');
+  static const VMVerificationErrorKind ReadRefExistsMutableBorrowError = VMVerificationErrorKind._(51, 'ReadRefExistsMutableBorrowError');
+  static const VMVerificationErrorKind WriteRefTypeMismatchError = VMVerificationErrorKind._(52, 'WriteRefTypeMismatchError');
+  static const VMVerificationErrorKind WriteRefResourceError = VMVerificationErrorKind._(53, 'WriteRefResourceError');
+  static const VMVerificationErrorKind WriteRefExistsBorrowError = VMVerificationErrorKind._(54, 'WriteRefExistsBorrowError');
+  static const VMVerificationErrorKind WriteRefNoMutableReferenceError = VMVerificationErrorKind._(55, 'WriteRefNoMutableReferenceError');
+  static const VMVerificationErrorKind IntegerOpTypeMismatchError = VMVerificationErrorKind._(56, 'IntegerOpTypeMismatchError');
+  static const VMVerificationErrorKind BooleanOpTypeMismatchError = VMVerificationErrorKind._(57, 'BooleanOpTypeMismatchError');
+  static const VMVerificationErrorKind EqualityOpTypeMismatchError = VMVerificationErrorKind._(58, 'EqualityOpTypeMismatchError');
+  static const VMVerificationErrorKind ExistsResourceTypeMismatchError = VMVerificationErrorKind._(59, 'ExistsResourceTypeMismatchError');
+  static const VMVerificationErrorKind ExistsNoResourceError = VMVerificationErrorKind._(60, 'ExistsNoResourceError');
+  static const VMVerificationErrorKind BorrowGlobalTypeMismatchError = VMVerificationErrorKind._(61, 'BorrowGlobalTypeMismatchError');
+  static const VMVerificationErrorKind BorrowGlobalNoResourceError = VMVerificationErrorKind._(62, 'BorrowGlobalNoResourceError');
+  static const VMVerificationErrorKind MoveFromTypeMismatchError = VMVerificationErrorKind._(63, 'MoveFromTypeMismatchError');
+  static const VMVerificationErrorKind MoveFromNoResourceError = VMVerificationErrorKind._(64, 'MoveFromNoResourceError');
+  static const VMVerificationErrorKind MoveToSenderTypeMismatchError = VMVerificationErrorKind._(65, 'MoveToSenderTypeMismatchError');
+  static const VMVerificationErrorKind MoveToSenderNoResourceError = VMVerificationErrorKind._(66, 'MoveToSenderNoResourceError');
+  static const VMVerificationErrorKind CreateAccountTypeMismatchError = VMVerificationErrorKind._(67, 'CreateAccountTypeMismatchError');
+  static const VMVerificationErrorKind GlobalReferenceError = VMVerificationErrorKind._(68, 'GlobalReferenceError');
+  static const VMVerificationErrorKind ModuleAddressDoesNotMatchSender = VMVerificationErrorKind._(69, 'ModuleAddressDoesNotMatchSender');
+  static const VMVerificationErrorKind NoModuleHandles = VMVerificationErrorKind._(70, 'NoModuleHandles');
+  static const VMVerificationErrorKind MissingAcquiresResourceAnnotationError = VMVerificationErrorKind._(71, 'MissingAcquiresResourceAnnotationError');
+  static const VMVerificationErrorKind ExtraneousAcquiresResourceAnnotationError = VMVerificationErrorKind._(72, 'ExtraneousAcquiresResourceAnnotationError');
+  static const VMVerificationErrorKind DuplicateAcquiresResourceAnnotationError = VMVerificationErrorKind._(73, 'DuplicateAcquiresResourceAnnotationError');
+  static const VMVerificationErrorKind InvalidAcquiresResourceAnnotationError = VMVerificationErrorKind._(74, 'InvalidAcquiresResourceAnnotationError');
 
   static const $core.List<VMVerificationErrorKind> values = <VMVerificationErrorKind> [
     UnknownVerificationError,
     IndexOutOfBounds,
+    CodeUnitIndexOutOfBounds,
     RangeOutOfBounds,
     InvalidSignatureToken,
     InvalidFieldDefReference,
@@ -151,7 +159,7 @@ class VMVerificationErrorKind extends $pb.ProtobufEnum {
     PopResourceError,
     ReleaseRefTypeMismatchError,
     BrTypeMismatchError,
-    AssertTypeMismatchError,
+    AbortTypeMismatchError,
     StLocTypeMismatchError,
     StLocUnsafeToDestroyError,
     RetUnsafeToDestroyError,
@@ -184,6 +192,7 @@ class VMVerificationErrorKind extends $pb.ProtobufEnum {
     BooleanOpTypeMismatchError,
     EqualityOpTypeMismatchError,
     ExistsResourceTypeMismatchError,
+    ExistsNoResourceError,
     BorrowGlobalTypeMismatchError,
     BorrowGlobalNoResourceError,
     MoveFromTypeMismatchError,
@@ -191,8 +200,13 @@ class VMVerificationErrorKind extends $pb.ProtobufEnum {
     MoveToSenderTypeMismatchError,
     MoveToSenderNoResourceError,
     CreateAccountTypeMismatchError,
+    GlobalReferenceError,
     ModuleAddressDoesNotMatchSender,
     NoModuleHandles,
+    MissingAcquiresResourceAnnotationError,
+    ExtraneousAcquiresResourceAnnotationError,
+    DuplicateAcquiresResourceAnnotationError,
+    InvalidAcquiresResourceAnnotationError,
   ];
 
   static final $core.Map<$core.int, VMVerificationErrorKind> _byValue = $pb.ProtobufEnum.initByValue(values);
@@ -211,6 +225,8 @@ class VMInvariantViolationError extends $pb.ProtobufEnum {
   static const VMInvariantViolationError LinkerError = VMInvariantViolationError._(6, 'LinkerError');
   static const VMInvariantViolationError LocalReferenceError = VMInvariantViolationError._(7, 'LocalReferenceError');
   static const VMInvariantViolationError StorageError = VMInvariantViolationError._(8, 'StorageError');
+  static const VMInvariantViolationError InternalTypeError = VMInvariantViolationError._(9, 'InternalTypeError');
+  static const VMInvariantViolationError EventKeyMismatch = VMInvariantViolationError._(10, 'EventKeyMismatch');
 
   static const $core.List<VMInvariantViolationError> values = <VMInvariantViolationError> [
     UnknownInvariantViolationError,
@@ -222,6 +238,8 @@ class VMInvariantViolationError extends $pb.ProtobufEnum {
     LinkerError,
     LocalReferenceError,
     StorageError,
+    InternalTypeError,
+    EventKeyMismatch,
   ];
 
   static final $core.Map<$core.int, VMInvariantViolationError> _byValue = $pb.ProtobufEnum.initByValue(values);

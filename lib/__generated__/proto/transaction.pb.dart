@@ -23,6 +23,8 @@ export 'transaction.pbenum.dart';
 enum RawTransaction_Payload {
   program, 
   writeSet, 
+  script, 
+  module, 
   notSet
 }
 
@@ -30,10 +32,12 @@ class RawTransaction extends $pb.GeneratedMessage {
   static const $core.Map<$core.int, RawTransaction_Payload> _RawTransaction_PayloadByTag = {
     3 : RawTransaction_Payload.program,
     4 : RawTransaction_Payload.writeSet,
+    8 : RawTransaction_Payload.script,
+    9 : RawTransaction_Payload.module,
     0 : RawTransaction_Payload.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RawTransaction', package: const $pb.PackageName('types'))
-    ..oo(0, [3, 4])
+    ..oo(0, [3, 4, 8, 9])
     ..a<$core.List<$core.int>>(1, 'senderAccount', $pb.PbFieldType.OY)
     ..a<Int64>(2, 'sequenceNumber', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Program>(3, 'program', $pb.PbFieldType.OM, Program.getDefault, Program.create)
@@ -41,6 +45,8 @@ class RawTransaction extends $pb.GeneratedMessage {
     ..a<Int64>(5, 'maxGasAmount', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Int64>(6, 'gasUnitPrice', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Int64>(7, 'expirationTime', $pb.PbFieldType.OU6, Int64.ZERO)
+    ..a<Script>(8, 'script', $pb.PbFieldType.OM, Script.getDefault, Script.create)
+    ..a<Module>(9, 'module', $pb.PbFieldType.OM, Module.getDefault, Module.create)
     ..hasRequiredFields = false
   ;
 
@@ -95,6 +101,16 @@ class RawTransaction extends $pb.GeneratedMessage {
   set expirationTime(Int64 v) { if (v != 0) $_setInt64(6, v); } // don't set if 0
   $core.bool hasExpirationTime() => $_has(6);
   void clearExpirationTime() => clearField(7);
+
+  Script get script => $_getN(7);
+  set script(Script v) { setField(8, v); }
+  $core.bool hasScript() => $_has(7);
+  void clearScript() => clearField(8);
+
+  Module get module => $_getN(8);
+  set module(Module v) { setField(9, v); }
+  $core.bool hasModule() => $_has(8);
+  void clearModule() => clearField(9);
 }
 
 class Program extends $pb.GeneratedMessage {
@@ -129,6 +145,35 @@ class Program extends $pb.GeneratedMessage {
   $core.List<$core.List<$core.int>> get modules => $_getList(2);
 }
 
+class Script extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Script', package: const $pb.PackageName('types'))
+    ..a<$core.List<$core.int>>(1, 'code', $pb.PbFieldType.OY)
+    ..pc<TransactionArgument>(2, 'arguments', $pb.PbFieldType.PM,TransactionArgument.create)
+    ..hasRequiredFields = false
+  ;
+
+  Script._() : super();
+  factory Script() => create();
+  factory Script.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Script.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Script clone() => Script()..mergeFromMessage(this);
+  Script copyWith(void Function(Script) updates) => super.copyWith((message) => updates(message as Script));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Script create() => Script._();
+  Script createEmptyInstance() => create();
+  static $pb.PbList<Script> createRepeated() => $pb.PbList<Script>();
+  static Script getDefault() => _defaultInstance ??= create()..freeze();
+  static Script _defaultInstance;
+
+  $core.List<$core.int> get code => $_getN(0);
+  set code($core.List<$core.int> v) { $_setBytes(0, v); }
+  $core.bool hasCode() => $_has(0);
+  void clearCode() => clearField(1);
+
+  $core.List<TransactionArgument> get arguments => $_getList(1);
+}
+
 class TransactionArgument extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('TransactionArgument', package: const $pb.PackageName('types'))
     ..e<TransactionArgument_ArgType>(1, 'type', $pb.PbFieldType.OE, TransactionArgument_ArgType.U64, TransactionArgument_ArgType.valueOf, TransactionArgument_ArgType.values)
@@ -151,7 +196,7 @@ class TransactionArgument extends $pb.GeneratedMessage {
   static TransactionArgument _defaultInstance;
 
   TransactionArgument_ArgType get type => $_getN(0);
-  set type(TransactionArgument_ArgType v) { if (v.value != 0) setField(1, v); } // don't set if 0
+  set type(TransactionArgument_ArgType v) { setField(1, v); }
   $core.bool hasType() => $_has(0);
   void clearType() => clearField(1);
 
@@ -159,6 +204,32 @@ class TransactionArgument extends $pb.GeneratedMessage {
   set data($core.List<$core.int> v) { $_setBytes(1, v); }
   $core.bool hasData() => $_has(1);
   void clearData() => clearField(2);
+}
+
+class Module extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Module', package: const $pb.PackageName('types'))
+    ..a<$core.List<$core.int>>(1, 'code', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  Module._() : super();
+  factory Module() => create();
+  factory Module.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Module.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Module clone() => Module()..mergeFromMessage(this);
+  Module copyWith(void Function(Module) updates) => super.copyWith((message) => updates(message as Module));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Module create() => Module._();
+  Module createEmptyInstance() => create();
+  static $pb.PbList<Module> createRepeated() => $pb.PbList<Module>();
+  static Module getDefault() => _defaultInstance ??= create()..freeze();
+  static Module _defaultInstance;
+
+  $core.List<$core.int> get code => $_getN(0);
+  set code($core.List<$core.int> v) { $_setBytes(0, v); }
+  $core.bool hasCode() => $_has(0);
+  void clearCode() => clearField(1);
 }
 
 class SignedTransaction extends $pb.GeneratedMessage {

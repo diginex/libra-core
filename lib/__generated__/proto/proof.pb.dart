@@ -76,6 +76,38 @@ class SparseMerkleProof extends $pb.GeneratedMessage {
   $core.List<$core.List<$core.int>> get nonDefaultSiblings => $_getList(2);
 }
 
+class AccumulatorConsistencyProof extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccumulatorConsistencyProof', package: const $pb.PackageName('types'))
+    ..p<$core.List<$core.int>>(1, 'frozenSubtreeRoots', $pb.PbFieldType.PY)
+    ..a<$core.int>(2, 'numSiblings', $pb.PbFieldType.OU3)
+    ..p<$core.List<$core.int>>(3, 'nonDefaultSiblings', $pb.PbFieldType.PY)
+    ..hasRequiredFields = false
+  ;
+
+  AccumulatorConsistencyProof._() : super();
+  factory AccumulatorConsistencyProof() => create();
+  factory AccumulatorConsistencyProof.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AccumulatorConsistencyProof.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AccumulatorConsistencyProof clone() => AccumulatorConsistencyProof()..mergeFromMessage(this);
+  AccumulatorConsistencyProof copyWith(void Function(AccumulatorConsistencyProof) updates) => super.copyWith((message) => updates(message as AccumulatorConsistencyProof));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AccumulatorConsistencyProof create() => AccumulatorConsistencyProof._();
+  AccumulatorConsistencyProof createEmptyInstance() => create();
+  static $pb.PbList<AccumulatorConsistencyProof> createRepeated() => $pb.PbList<AccumulatorConsistencyProof>();
+  static AccumulatorConsistencyProof getDefault() => _defaultInstance ??= create()..freeze();
+  static AccumulatorConsistencyProof _defaultInstance;
+
+  $core.List<$core.List<$core.int>> get frozenSubtreeRoots => $_getList(0);
+
+  $core.int get numSiblings => $_get(1, 0);
+  set numSiblings($core.int v) { $_setUnsignedInt32(1, v); }
+  $core.bool hasNumSiblings() => $_has(1);
+  void clearNumSiblings() => clearField(2);
+
+  $core.List<$core.List<$core.int>> get nonDefaultSiblings => $_getList(2);
+}
+
 class SignedTransactionProof extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SignedTransactionProof', package: const $pb.PackageName('types'))
     ..a<AccumulatorProof>(1, 'ledgerInfoToTransactionInfoProof', $pb.PbFieldType.OM, AccumulatorProof.getDefault, AccumulatorProof.create)

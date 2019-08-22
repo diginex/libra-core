@@ -8,14 +8,7 @@
 const AccumulatorProof$json = const {
   '1': 'AccumulatorProof',
   '2': const [
-    const {
-      '1': 'bitmap',
-      '3': 1,
-      '4': 1,
-      '5': 4,
-      '8': const {'6': 1},
-      '10': 'bitmap',
-    },
+    const {'1': 'bitmap', '3': 1, '4': 1, '5': 4, '10': 'bitmap'},
     const {'1': 'non_default_siblings', '3': 2, '4': 3, '5': 12, '10': 'nonDefaultSiblings'},
   ],
 };
@@ -25,6 +18,15 @@ const SparseMerkleProof$json = const {
   '2': const [
     const {'1': 'leaf', '3': 1, '4': 1, '5': 12, '10': 'leaf'},
     const {'1': 'bitmap', '3': 2, '4': 1, '5': 12, '10': 'bitmap'},
+    const {'1': 'non_default_siblings', '3': 3, '4': 3, '5': 12, '10': 'nonDefaultSiblings'},
+  ],
+};
+
+const AccumulatorConsistencyProof$json = const {
+  '1': 'AccumulatorConsistencyProof',
+  '2': const [
+    const {'1': 'frozen_subtree_roots', '3': 1, '4': 3, '5': 12, '10': 'frozenSubtreeRoots'},
+    const {'1': 'num_siblings', '3': 2, '4': 1, '5': 13, '10': 'numSiblings'},
     const {'1': 'non_default_siblings', '3': 3, '4': 3, '5': 12, '10': 'nonDefaultSiblings'},
   ],
 };
