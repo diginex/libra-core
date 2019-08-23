@@ -101,33 +101,20 @@ void main() {
       LibraWallet wallet = new LibraWallet();
       LibraAccount alice = wallet.newAccount();
       String aliceAddress = alice.getAddress();
-      LibraAccount charley = wallet.newAccount();
-      String charleyAddress = charley.getAddress();
       LibraAccount bob = wallet.newAccount();
       String bobAddress = bob.getAddress();
 
       print('send from alice: $aliceAddress to bob: $bobAddress');
-      print('send from charley: $charleyAddress to bob: $bobAddress');
       int amount = 1000000;
       await client.mintWithFaucetService(aliceAddress, BigInt.from(amount),
           needWait: false);
-      await client.mintWithFaucetService(charleyAddress, BigInt.from(amount),
-          needWait: false);
-      await client.transferCoins(alice, bobAddress, amount);
-      await client.transferCoins(charley, bobAddress, amount);
       LibraAccountState aliceState = await client.getAccountState(aliceAddress);
+      await client.transferCoins(alice, bobAddress, amount);
       LibraAccountState bobState = await client.getAccountState(bobAddress);
-      LibraAccountState charleyState =
-          await client.getAccountState(charleyAddress);
-      print('alice state: ${aliceState.balance}, ${aliceState.sequenceNumber}');
       print('bob state: ${bobState.balance}, ${bobState.sequenceNumber}');
-      print(
-          'charley state: ${charleyState.balance}, ${charleyState.sequenceNumber}');
-
+      
       LibraSignedTransactionWithProof lastTransaction = await client
           .getAccountTransaction(aliceAddress, aliceState.sequenceNumber);
-      print('${lastTransaction.signedTransaction.transaction.sequenceNumber}');
-
       expect(
           LibraHelpers.byteToHex(lastTransaction.signedTransaction.publicKey),
           LibraHelpers.byteToHex(alice.keyPair.getPublicKey()));
