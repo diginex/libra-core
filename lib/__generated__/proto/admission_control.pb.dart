@@ -9,9 +9,9 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'transaction.pb.dart' as $11;
-import 'vm_errors.pb.dart' as $13;
-import 'mempool_status.pb.dart' as $14;
+import 'transaction.pb.dart' as $12;
+import 'vm_errors.pb.dart' as $14;
+import 'mempool_status.pb.dart' as $15;
 
 import 'admission_control.pbenum.dart';
 
@@ -19,7 +19,7 @@ export 'admission_control.pbenum.dart';
 
 class SubmitTransactionRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SubmitTransactionRequest', package: const $pb.PackageName('admission_control'))
-    ..a<$11.SignedTransaction>(1, 'signedTxn', $pb.PbFieldType.OM, $11.SignedTransaction.getDefault, $11.SignedTransaction.create)
+    ..a<$12.SignedTransaction>(1, 'signedTxn', $pb.PbFieldType.OM, $12.SignedTransaction.getDefault, $12.SignedTransaction.create)
     ..hasRequiredFields = false
   ;
 
@@ -37,8 +37,8 @@ class SubmitTransactionRequest extends $pb.GeneratedMessage {
   static SubmitTransactionRequest getDefault() => _defaultInstance ??= create()..freeze();
   static SubmitTransactionRequest _defaultInstance;
 
-  $11.SignedTransaction get signedTxn => $_getN(0);
-  set signedTxn($11.SignedTransaction v) { setField(1, v); }
+  $12.SignedTransaction get signedTxn => $_getN(0);
+  set signedTxn($12.SignedTransaction v) { setField(1, v); }
   $core.bool hasSignedTxn() => $_has(0);
   void clearSignedTxn() => clearField(1);
 }
@@ -91,9 +91,9 @@ class SubmitTransactionResponse extends $pb.GeneratedMessage {
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SubmitTransactionResponse', package: const $pb.PackageName('admission_control'))
     ..oo(0, [1, 2, 3])
-    ..a<$13.VMStatus>(1, 'vmStatus', $pb.PbFieldType.OM, $13.VMStatus.getDefault, $13.VMStatus.create)
+    ..a<$14.VMStatus>(1, 'vmStatus', $pb.PbFieldType.OM, $14.VMStatus.getDefault, $14.VMStatus.create)
     ..a<AdmissionControlStatus>(2, 'acStatus', $pb.PbFieldType.OM, AdmissionControlStatus.getDefault, AdmissionControlStatus.create)
-    ..a<$14.MempoolAddTransactionStatus>(3, 'mempoolStatus', $pb.PbFieldType.OM, $14.MempoolAddTransactionStatus.getDefault, $14.MempoolAddTransactionStatus.create)
+    ..a<$15.MempoolAddTransactionStatus>(3, 'mempoolStatus', $pb.PbFieldType.OM, $15.MempoolAddTransactionStatus.getDefault, $15.MempoolAddTransactionStatus.create)
     ..a<$core.List<$core.int>>(4, 'validatorId', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
@@ -115,8 +115,8 @@ class SubmitTransactionResponse extends $pb.GeneratedMessage {
   SubmitTransactionResponse_Status whichStatus() => _SubmitTransactionResponse_StatusByTag[$_whichOneof(0)];
   void clearStatus() => clearField($_whichOneof(0));
 
-  $13.VMStatus get vmStatus => $_getN(0);
-  set vmStatus($13.VMStatus v) { setField(1, v); }
+  $14.VMStatus get vmStatus => $_getN(0);
+  set vmStatus($14.VMStatus v) { setField(1, v); }
   $core.bool hasVmStatus() => $_has(0);
   void clearVmStatus() => clearField(1);
 
@@ -125,8 +125,8 @@ class SubmitTransactionResponse extends $pb.GeneratedMessage {
   $core.bool hasAcStatus() => $_has(1);
   void clearAcStatus() => clearField(2);
 
-  $14.MempoolAddTransactionStatus get mempoolStatus => $_getN(2);
-  set mempoolStatus($14.MempoolAddTransactionStatus v) { setField(3, v); }
+  $15.MempoolAddTransactionStatus get mempoolStatus => $_getN(2);
+  set mempoolStatus($15.MempoolAddTransactionStatus v) { setField(3, v); }
   $core.bool hasMempoolStatus() => $_has(2);
   void clearMempoolStatus() => clearField(3);
 

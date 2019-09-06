@@ -1,7 +1,10 @@
 import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_libra_core/flutter_libra_core.dart';
 import 'package:flutter_libra_core/src/wallet/Mnemonic.dart';
+import 'package:hex/hex.dart';
+import 'package:fixnum/fixnum.dart';
 
 const String mnemonic =
     'danger gravity economy coconut flavor cart relax cactus analyst cradle pelican guitar balance there mail check where scrub topple shock connect valid follow flip';
@@ -10,8 +13,81 @@ const address1 =
 const address2 =
     'e7f884d74d8372becba990f374bb92a3edd19be9d8d1e50cac38c79d6f57d1c0';
 
+class Bar implements CanonicalSerializable {
+  int a;
+  Uint8List b;
+  Uint8List c;
+  int d;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer
+      .encodeUint64(a)
+      .encodeBytes(b)
+      .encodeBytes(c)
+      .encodeUint32(d);
+  }
+}
+
+class Foo implements CanonicalSerializable {
+  int a;
+  Uint8List b;
+  Bar c;
+  bool d;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer
+      .encodeUint64(a)
+      .encodeBytes(b)
+      .encodeObject(c)
+      .encodeBool(d);
+  }
+}
+
 void main() {
   group('flutter_libra_core tests', () {
+    
+    test('get peer tnx constant', () {
+        print(base64.encode(new Uint8List.fromList([76,73,66,82,65,86,77,10,1,0,7,1,74,0,0,0,4,0,0,0,3,78,0,0,0,6,0,0,0,13,84,0,0,0,6,0,0,0,14,90,0,0,0,6,0,0,0,5,96,0,0,0,41,0,0,0,4,137,0,0,0,32,0,0,0,8,169,0,0,0,15,0,0,0,0,0,0,1,0,2,0,1,3,0,2,0,2,4,2,0,3,2,4,2,3,0,6,60,83,69,76,70,62,12,76,105,98,114,97,65,99,99,111,117,110,116,4,109,97,105,110,15,112,97,121,95,102,114,111,109,95,115,101,110,100,101,114,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,2,0,4,0,12,0,12,1,19,1,1,2])));
+    });
+
+    test('can serialize should work', () {
+    /*
+      let bar = Bar {
+        a: 100,
+        b: vec![0, 1, 2, 3, 4, 5, 6, 7, 8],
+        c: Addr::new([5u8; 32]),
+        d: 99,
+      };
+      let mut map = BTreeMap::new();
+      map.insert(vec![0, 56, 21], vec![22, 10, 5]);
+      map.insert(vec![1], vec![22, 21, 67]);
+      map.insert(vec![20, 21, 89, 105], vec![201, 23, 90]);
+      let foo = Foo {
+        a: u64::max_value(),
+        b: vec![100, 99, 88, 77, 66, 55],
+        c: bar,
+        d: true,
+        e: map,
+      };
+      */
+      var bar = new Bar();
+      bar.a = 100;
+      bar.b = Uint8List.fromList([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+      bar.c = Uint8List.fromList(List.filled(32, 5));
+      bar.d = 99;
+      var foo = new Foo();
+      foo.a = Int64.MAX_VALUE.toInt() * 2 + 1;
+      foo.b = Uint8List.fromList([100, 99, 88, 77, 66, 55]);
+      foo.c = bar;
+      foo.d = true;
+
+      var serializer = new SimpleSerializer();
+      foo.serialize(serializer);
+      expect(HEX.encode(serializer.getBytes()), 'ffffffffffffffff060000006463584d42376400000000000000090000000001020304050607082000000005050505050505050505050505050505050505050505050505050505050505056300000001');
+    });
+
     test('Can turn a libra entropy into a mnemonic phrase and back', () {
       List<String> expectedWordsOrdered = mnemonic.split(' ');
       String entropy = Mnemonic.mnemonicListToEntropy(expectedWordsOrdered);
@@ -103,12 +179,12 @@ void main() {
       String aliceAddress = alice.getAddress();
       LibraAccount bob = wallet.newAccount();
       String bobAddress = bob.getAddress();
-
       print('send from alice: $aliceAddress to bob: $bobAddress');
       int amount = 1000000;
       await client.mintWithFaucetService(aliceAddress, BigInt.from(amount),
           needWait: false);
       LibraAccountState aliceState = await client.getAccountState(aliceAddress);
+      print('alice state: ${aliceState.balance}, ${aliceState.sequenceNumber}');
       await client.transferCoins(alice, bobAddress, amount);
       LibraAccountState bobState = await client.getAccountState(bobAddress);
       print('bob state: ${bobState.balance}, ${bobState.sequenceNumber}');
@@ -120,8 +196,9 @@ void main() {
           LibraHelpers.byteToHex(alice.keyPair.getPublicKey()));
       expect(lastTransaction.signedTransaction.transaction.sequenceNumber,
           aliceState.sequenceNumber);
+      
     });
-
+    /*
     test('Can get raw transactions by startVersion', () async {
       LibraClient client = new LibraClient();
       int startVersion = 44441;
@@ -130,5 +207,6 @@ void main() {
       LibraRawTransaction libraRawTransaction = libraRawTransactions[0];
       expect(libraRawTransaction.version.toInt(), startVersion);
     });
+    */
   });
 }

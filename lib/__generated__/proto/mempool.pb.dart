@@ -10,12 +10,12 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'transaction.pb.dart' as $11;
-import 'mempool_status.pb.dart' as $14;
+import 'transaction.pb.dart' as $12;
+import 'mempool_status.pb.dart' as $15;
 
 class AddTransactionWithValidationRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AddTransactionWithValidationRequest', package: const $pb.PackageName('mempool'))
-    ..a<$11.SignedTransaction>(1, 'signedTxn', $pb.PbFieldType.OM, $11.SignedTransaction.getDefault, $11.SignedTransaction.create)
+    ..a<$12.SignedTransaction>(1, 'signedTxn', $pb.PbFieldType.OM, $12.SignedTransaction.getDefault, $12.SignedTransaction.create)
     ..a<Int64>(2, 'maxGasCost', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Int64>(3, 'latestSequenceNumber', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Int64>(4, 'accountBalance', $pb.PbFieldType.OU6, Int64.ZERO)
@@ -36,8 +36,8 @@ class AddTransactionWithValidationRequest extends $pb.GeneratedMessage {
   static AddTransactionWithValidationRequest getDefault() => _defaultInstance ??= create()..freeze();
   static AddTransactionWithValidationRequest _defaultInstance;
 
-  $11.SignedTransaction get signedTxn => $_getN(0);
-  set signedTxn($11.SignedTransaction v) { setField(1, v); }
+  $12.SignedTransaction get signedTxn => $_getN(0);
+  set signedTxn($12.SignedTransaction v) { setField(1, v); }
   $core.bool hasSignedTxn() => $_has(0);
   void clearSignedTxn() => clearField(1);
 
@@ -60,7 +60,7 @@ class AddTransactionWithValidationRequest extends $pb.GeneratedMessage {
 class AddTransactionWithValidationResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AddTransactionWithValidationResponse', package: const $pb.PackageName('mempool'))
     ..a<Int64>(1, 'currentVersion', $pb.PbFieldType.OU6, Int64.ZERO)
-    ..a<$14.MempoolAddTransactionStatus>(2, 'status', $pb.PbFieldType.OM, $14.MempoolAddTransactionStatus.getDefault, $14.MempoolAddTransactionStatus.create)
+    ..a<$15.MempoolAddTransactionStatus>(2, 'status', $pb.PbFieldType.OM, $15.MempoolAddTransactionStatus.getDefault, $15.MempoolAddTransactionStatus.create)
     ..hasRequiredFields = false
   ;
 
@@ -83,8 +83,8 @@ class AddTransactionWithValidationResponse extends $pb.GeneratedMessage {
   $core.bool hasCurrentVersion() => $_has(0);
   void clearCurrentVersion() => clearField(1);
 
-  $14.MempoolAddTransactionStatus get status => $_getN(1);
-  set status($14.MempoolAddTransactionStatus v) { setField(2, v); }
+  $15.MempoolAddTransactionStatus get status => $_getN(1);
+  set status($15.MempoolAddTransactionStatus v) { setField(2, v); }
   $core.bool hasStatus() => $_has(1);
   void clearStatus() => clearField(2);
 }
@@ -120,7 +120,7 @@ class GetBlockRequest extends $pb.GeneratedMessage {
 
 class GetBlockResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('GetBlockResponse', package: const $pb.PackageName('mempool'))
-    ..a<$11.SignedTransactionsBlock>(1, 'block', $pb.PbFieldType.OM, $11.SignedTransactionsBlock.getDefault, $11.SignedTransactionsBlock.create)
+    ..a<$12.SignedTransactionsBlock>(1, 'block', $pb.PbFieldType.OM, $12.SignedTransactionsBlock.getDefault, $12.SignedTransactionsBlock.create)
     ..hasRequiredFields = false
   ;
 
@@ -138,8 +138,8 @@ class GetBlockResponse extends $pb.GeneratedMessage {
   static GetBlockResponse getDefault() => _defaultInstance ??= create()..freeze();
   static GetBlockResponse _defaultInstance;
 
-  $11.SignedTransactionsBlock get block => $_getN(0);
-  set block($11.SignedTransactionsBlock v) { setField(1, v); }
+  $12.SignedTransactionsBlock get block => $_getN(0);
+  set block($12.SignedTransactionsBlock v) { setField(1, v); }
   $core.bool hasBlock() => $_has(0);
   void clearBlock() => clearField(1);
 }

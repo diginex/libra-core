@@ -10,6 +10,8 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'validator_set.pb.dart' as $6;
+
 class LedgerInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('LedgerInfo', package: const $pb.PackageName('types'))
     ..a<Int64>(1, 'version', $pb.PbFieldType.OU6, Int64.ZERO)
@@ -18,6 +20,7 @@ class LedgerInfo extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(4, 'consensusBlockId', $pb.PbFieldType.OY)
     ..a<Int64>(5, 'epochNum', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<Int64>(6, 'timestampUsecs', $pb.PbFieldType.OU6, Int64.ZERO)
+    ..a<$6.ValidatorSet>(7, 'nextValidatorSet', $pb.PbFieldType.OM, $6.ValidatorSet.getDefault, $6.ValidatorSet.create)
     ..hasRequiredFields = false
   ;
 
@@ -64,6 +67,11 @@ class LedgerInfo extends $pb.GeneratedMessage {
   set timestampUsecs(Int64 v) { $_setInt64(5, v); }
   $core.bool hasTimestampUsecs() => $_has(5);
   void clearTimestampUsecs() => clearField(6);
+
+  $6.ValidatorSet get nextValidatorSet => $_getN(6);
+  set nextValidatorSet($6.ValidatorSet v) { setField(7, v); }
+  $core.bool hasNextValidatorSet() => $_has(6);
+  void clearNextValidatorSet() => clearField(7);
 }
 
 class LedgerInfoWithSignatures extends $pb.GeneratedMessage {

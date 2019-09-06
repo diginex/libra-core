@@ -16,6 +16,7 @@ class TransactionInfo extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(2, 'stateRootHash', $pb.PbFieldType.OY)
     ..a<$core.List<$core.int>>(3, 'eventRootHash', $pb.PbFieldType.OY)
     ..a<Int64>(4, 'gasUsed', $pb.PbFieldType.OU6, Int64.ZERO)
+    ..a<Int64>(5, 'majorStatus', $pb.PbFieldType.OU6, Int64.ZERO)
     ..hasRequiredFields = false
   ;
 
@@ -52,5 +53,10 @@ class TransactionInfo extends $pb.GeneratedMessage {
   set gasUsed(Int64 v) { $_setInt64(3, v); }
   $core.bool hasGasUsed() => $_has(3);
   void clearGasUsed() => clearField(4);
+
+  Int64 get majorStatus => $_getI64(4);
+  set majorStatus(Int64 v) { $_setInt64(4, v); }
+  $core.bool hasMajorStatus() => $_has(4);
+  void clearMajorStatus() => clearField(5);
 }
 

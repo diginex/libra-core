@@ -15,7 +15,6 @@ import 'package:flutter_libra_core/__generated__/proto/account_state_blob.pb.dar
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pbgrpc.dart';
 import 'package:flutter_libra_core/__generated__/proto/get_with_proof.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
-import 'package:flutter_libra_core/__generated__/proto/transaction_info.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pb.dart';
 
 class LibraConfig {
@@ -100,8 +99,9 @@ class LibraClient {
     String recipientAddress,
     int numCoins,
   ) async {
+      String senderAddress = sender.getAddress();
     LibraAccountState senderAccountState =
-        await getAccountState(sender.getAddress());
+        await getAccountState(senderAddress);
     return execute(
         sender,
         LibraTransaction.createTransfer(recipientAddress, BigInt.from(numCoins),
@@ -112,24 +112,29 @@ class LibraClient {
       LibraAccount sender, LibraTransaction transaction) async {
     RawTransaction rawTransaction = await ClientEncoder.encodeLibraTransaction(
         transaction, sender.getAddress());
-    SignedTransaction signedTransaction = new SignedTransaction();
     SubmitTransactionRequest request = new SubmitTransactionRequest();
-
-    Uint8List rawTxnBytes = rawTransaction.writeToBuffer();
-    signedTransaction.rawTxnBytes = rawTxnBytes;
-    signedTransaction.senderPublicKey = sender.keyPair.getPublicKey();
-    signedTransaction.senderSignature = sender.keyPair.sign(rawTxnBytes);
+    
+    RawSignedTransaction rawsignedTransaction = new RawSignedTransaction();
+    SimpleSerializer serializer = new SimpleSerializer();
+    rawTransaction.serialize(serializer);
+    Uint8List rawTxnBytes = serializer.getBytes();
+    rawsignedTransaction.rawTxn = rawTransaction;
+    rawsignedTransaction.publicKey = sender.keyPair.getPublicKey();
+    rawsignedTransaction.signature = sender.keyPair.sign(rawTxnBytes);
+    
+    SignedTransaction signedTransaction = new SignedTransaction();
+    serializer = new SimpleSerializer();
+    rawsignedTransaction.serialize(serializer);
+    signedTransaction.signedTxn = serializer.getBytes();
     request.signedTxn = signedTransaction;
+
     SubmitTransactionResponse response =
         await _client.submitTransaction(request);
 
-    LibraVMStatusError vmStatusError =
-        ClientDecoder.decodeVMStatus(response.vmStatus);
-
-    return new LibraTransactionResponse(signedTransaction, response.validatorId,
+    return new LibraTransactionResponse(rawsignedTransaction, response.validatorId,
         acStatus: response.acStatus.code,
         mempoolStatus: response.mempoolStatus.code,
-        vmStatus: vmStatusError);
+        vmStatus: response.vmStatus);
   }
 
   Future<String> mintWithFaucetService(String address, BigInt numCoins,
@@ -203,7 +208,7 @@ class LibraClient {
         response.signedTransactionWithProof;
     return ClientDecoder.decodeSignedTransactionWithProof(signedTransactionWP);
   }
-
+/*
   Future<List<LibraRawTransaction>> getRawTransactionList(int startVersion,
       {limit = 100, fetchEvents = true}) async {
     GetTransactionsRequest tnxReq = new GetTransactionsRequest();
@@ -260,10 +265,10 @@ class LibraClient {
       String type = senderAddress != MintAccount
           ? TransactionType.PeerToPeerTransaction
           : TransactionType.MintTransaction;
-      Int64 gasUnitPrice = rawTransaction.gasUnitPrice;
-      Int64 maxGasAmount = rawTransaction.maxGasAmount;
-      Int64 expirationTime = rawTransaction.expirationTime;
-      Int64 sequenceNumber = rawTransaction.sequenceNumber;
+      var gasUnitPrice = rawTransaction.gasUnitPrice;
+      var maxGasAmount = rawTransaction.maxGasAmount;
+      var expirationTime = rawTransaction.expirationTime;
+      var sequenceNumber = rawTransaction.sequenceNumber;
       String senderSignature = LibraHelpers.listToHex(tnx.senderSignature);
       Program program = rawTransaction.program;
       String codeHex = LibraHelpers.listToHex(program.code);
@@ -306,4 +311,5 @@ class LibraClient {
     }
     return libraRawTransactions;
   }
+  */
 }

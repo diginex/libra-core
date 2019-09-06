@@ -1,15 +1,289 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter_libra_core/src/common/simple_deserializer.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:hex/hex.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
+import 'package:flutter_libra_core/src/common/simple_serializer.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/proof.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/admission_control.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/mempool_status.pbenum.dart';
-import 'package:flutter_libra_core/__generated__/proto/vm_errors.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/vm_errors.pb.dart';
+
+class RawSignedTransaction
+    implements CanonicalSerializable, CanonicalDeserializable {
+  RawTransaction rawTxn;
+  Uint8List publicKey;
+  Uint8List signature;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer
+        .encodeObject(this.rawTxn)
+        .encodeBytes(this.publicKey)
+        .encodeBytes(this.signature);
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.rawTxn = deserializer.decodeObject(new RawTransaction());
+    this.publicKey = deserializer.decodeBytes();
+    this.signature = deserializer.decodeBytes();
+  }
+}
+
+class TransactionArgument
+    implements CanonicalSerializable, CanonicalDeserializable {
+  TransactionArgument_ArgType type;
+  Uint8List byteValue;
+  int u64Value;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeUint32(this.type.value);
+    if (this.type.value == TransactionArgument_ArgType.U64.value) {
+      serializer.encodeUint64(this.u64Value);
+    } else {
+      serializer.encodeBytes(this.byteValue);
+    }
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    int value = deserializer.decodeUint32();
+    if (value == TransactionArgument_ArgType.U64.value) {
+      this.type = TransactionArgument_ArgType.U64;
+      this.u64Value = deserializer.decodeUint64();
+    } else {
+      if (value == TransactionArgument_ArgType.ADDRESS.value) {
+        this.type = TransactionArgument_ArgType.ADDRESS;
+      } else if (value == TransactionArgument_ArgType.STRING.value) {
+        this.type = TransactionArgument_ArgType.STRING;
+      } else {
+        this.type = TransactionArgument_ArgType.BYTEARRAY;
+      }
+      this.byteValue = deserializer.decodeBytes();
+    }
+  }
+}
+
+class Program implements CanonicalSerializable, CanonicalDeserializable {
+  Uint8List code;
+  List<TransactionArgument> arguments;
+  List<Uint8List> modules;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeBytes(this.code);
+    serializer.encodeUint32(this.arguments.length);
+    this.arguments.forEach((arg) {
+      serializer.encodeObject(arg);
+    });
+    serializer.encodeUint32(this.modules.length);
+    this.modules.forEach((module) {
+      serializer.encodeBytes(module);
+    });
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.code = deserializer.decodeBytes();
+    int length = deserializer.decodeUint32();
+    this.arguments = [];
+    for (int i = 0; i < length; i++) {
+      this.arguments.add(deserializer.decodeObject(new TransactionArgument()));
+    }
+    length = deserializer.decodeUint32();
+    this.modules = [];
+    for (int i = 0; i < length; i++) {
+      this.modules.add(deserializer.decodeBytes());
+    }
+  }
+}
+
+class AccessPath implements CanonicalSerializable, CanonicalDeserializable {
+  Uint8List address;
+  Uint8List path;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeBytes(this.address).encodeBytes(this.path);
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.address = deserializer.decodeBytes();
+    this.path = deserializer.decodeBytes();
+  }
+}
+
+enum WriteOpType { Deletion, Value }
+
+class WriteOp implements CanonicalSerializable, CanonicalDeserializable {
+  WriteOpType type;
+  Uint8List value;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeUint32(this.type.index);
+    if (this.type.index == WriteOpType.Value.index) {
+      serializer.encodeBytes(this.value);
+    }
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    int value = deserializer.decodeUint32();
+    if (value == WriteOpType.Value.index) {
+      this.value = deserializer.decodeBytes();
+    }
+  }
+}
+
+class AccessPathWIthWriteOp {
+  AccessPath path;
+  WriteOp op;
+}
+
+class WriteSet implements CanonicalSerializable, CanonicalDeserializable {
+  List<AccessPathWIthWriteOp> writeSet;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeUint32(this.writeSet.length);
+    this.writeSet.forEach((w) {
+      serializer.encodeObject(w.path);
+      serializer.encodeObject(w.op);
+    });
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    int length = deserializer.decodeUint32();
+    this.writeSet = [];
+    for (int i = 0; i < length; i++) {
+      AccessPathWIthWriteOp accessPathWIthWriteOp = new AccessPathWIthWriteOp();
+      accessPathWIthWriteOp.path = deserializer.decodeObject(new AccessPath());
+      accessPathWIthWriteOp.op = deserializer.decodeObject(new WriteOp());
+      this.writeSet.add(accessPathWIthWriteOp);
+    }
+  }
+}
+
+class Script implements CanonicalSerializable, CanonicalDeserializable {
+  Uint8List code;
+  List<TransactionArgument> arguments;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeBytes(this.code);
+    serializer.encodeUint32(this.arguments.length);
+    this.arguments.forEach((arg) {
+      serializer.encodeObject(arg);
+    });
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.code = deserializer.decodeBytes();
+    int length = deserializer.decodeUint32();
+    this.arguments = [];
+    for (int i = 0; i < length; i++) {
+      this.arguments.add(deserializer.decodeObject(new TransactionArgument()));
+    }
+  }
+}
+
+class Module implements CanonicalSerializable, CanonicalDeserializable {
+  Uint8List code;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeBytes(this.code);
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.code = deserializer.decodeBytes();
+  }
+}
+
+enum TransactionPayloadType { Program, WriteSet, Script, Module }
+
+class TransactionPayload implements CanonicalSerializable, CanonicalDeserializable {
+  TransactionPayloadType type;
+  dynamic value;
+
+  TransactionPayload(CanonicalSerializable value) {
+    if (value is Program) {
+      this.type = TransactionPayloadType.Program;
+    } else if (value is WriteSet) {
+      this.type = TransactionPayloadType.WriteSet;
+    } else if (value is Script) {
+      this.type = TransactionPayloadType.Script;
+    } else {
+      this.type = TransactionPayloadType.Module;
+    }
+    this.value = value;
+  }
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer.encodeUint32(this.type.index).encodeObject(this.value);
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    int type = deserializer.decodeUint32();
+    if (type == TransactionPayloadType.Program.index) {
+      this.type = TransactionPayloadType.Program;
+      this.value = deserializer.decodeObject(new Program());
+    } else if (type == TransactionPayloadType.WriteSet.index) {
+      this.type = TransactionPayloadType.WriteSet;
+      this.value = deserializer.decodeObject(new Script());
+    } else if (type == TransactionPayloadType.Script.index) {
+      this.type = TransactionPayloadType.Script;
+      this.value = deserializer.decodeObject(new Script());
+    } else {
+      this.type = TransactionPayloadType.Module;
+      this.value = deserializer.decodeObject(new Module());
+    }
+  }
+}
+
+class RawTransaction implements CanonicalSerializable, CanonicalDeserializable {
+  Uint8List senderAccount;
+  int sequenceNumber;
+  TransactionPayload payload;
+  int maxGasAmount;
+  int gasUnitPrice;
+  int expirationTime;
+
+  @override
+  void serialize(SimpleSerializer serializer) {
+    serializer
+        .encodeBytes(this.senderAccount)
+        .encodeUint64(this.sequenceNumber);
+    serializer.encodeObject(this.payload);
+    serializer.encodeUint64(this.maxGasAmount);
+    serializer
+        .encodeUint64(this.gasUnitPrice)
+        .encodeUint64(this.expirationTime);
+  }
+
+  @override
+  void deserialize(SimpleDeserializer deserializer) {
+    this.senderAccount = deserializer.decodeBytes();
+    this.sequenceNumber = deserializer.decodeUint64();
+    this.payload = deserializer
+        .decodeObject(new TransactionPayload(new Program()));
+    this.maxGasAmount = deserializer.decodeUint64();
+    this.gasUnitPrice = deserializer.decodeUint64();
+    this.expirationTime = deserializer.decodeUint64();
+  }
+}
 
 class LibraProgramArgument {
   TransactionArgument_ArgType type;
@@ -19,9 +293,9 @@ class LibraProgramArgument {
 
 class LibraProgram {
   Uint8List code;
-  List<LibraProgramArgument> arguments;
   List<Uint8List> modules;
-  LibraProgram(this.code, this.arguments, this.modules);
+  List<LibraProgramArgument> arguments;
+  LibraProgram(this.code, this.modules, this.arguments);
 }
 
 class LibraGasConstraint {
@@ -34,10 +308,9 @@ class LibraTransaction {
   LibraProgram program;
   LibraGasConstraint gasContraint;
   int expirationTime;
-  Uint8List senderAddress;
   BigInt sequenceNumber;
   LibraTransaction(this.program, this.gasContraint, this.expirationTime,
-      this.senderAddress, this.sequenceNumber);
+      this.sequenceNumber);
 
   static LibraTransaction createTransfer(
       String recipientAddress, BigInt amount, BigInt sequenceNumber) {
@@ -49,7 +322,7 @@ class LibraTransaction {
       new LibraProgramArgument(TransactionArgument_ArgType.U64, amountBuffer),
     ];
     Uint8List code = base64.decode(ProgamBase64Codes.PeerToPeerTxn);
-    LibraProgram libraProgram = new LibraProgram(code, programArguments, []);
+    LibraProgram libraProgram = new LibraProgram(code, [], programArguments);
     LibraGasConstraint gas =
         new LibraGasConstraint(BigInt.zero, BigInt.from(1000000));
     int expirationTime =
@@ -58,7 +331,6 @@ class LibraTransaction {
       libraProgram,
       gas,
       expirationTime,
-      new Uint8List(AddressLength),
       sequenceNumber,
     );
   }
@@ -111,16 +383,16 @@ class LibraSignedTransaction {
 }
 
 class LibraTransactionResponse {
-  SignedTransaction signedTransaction;
+  RawSignedTransaction signedTransaction;
   List<int> validatorId;
   AdmissionControlStatusCode acStatus;
   MempoolAddTransactionStatusCode mempoolStatus;
-  LibraVMStatusError vmStatus;
+  VMStatus vmStatus;
 
   LibraTransactionResponse(this.signedTransaction, this.validatorId,
       {AdmissionControlStatusCode acStatus,
       MempoolAddTransactionStatusCode mempoolStatus,
-      LibraVMStatusError vmStatus}) {
+      VMStatus vmStatus}) {
     if (acStatus != null) {
       this.acStatus = acStatus;
     }
@@ -163,8 +435,8 @@ class LibraSignedTransactionWithProof {
       this.events = events;
     }
   }
-}
 
+/*
 class LibraVerificationStatusError {
   int moduleIndex;
   VMVerificationErrorKind error;
@@ -215,7 +487,6 @@ class LibraVMStatusError {
     this.executionError = executionError;
   }
 
-  /*
   Future<void> awaitConfirmation(LibraClient client) {
     return client.waitForConfirmation(
       this.signedTransaction.transaction.senderAddress,

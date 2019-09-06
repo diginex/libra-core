@@ -12,3 +12,4 @@ export 'package:flutter_libra_core/src/CursorBuffer.dart';
 export 'package:flutter_libra_core/src/client/index.dart';
 export 'package:flutter_libra_core/src/client/Decoder.dart';
 export 'package:flutter_libra_core/src/transaction/index.dart';
+export 'package:flutter_libra_core/src/common/simple_serializer.dart';

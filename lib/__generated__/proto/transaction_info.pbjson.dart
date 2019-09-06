@@ -12,6 +12,7 @@ const TransactionInfo$json = const {
     const {'1': 'state_root_hash', '3': 2, '4': 1, '5': 12, '10': 'stateRootHash'},
     const {'1': 'event_root_hash', '3': 3, '4': 1, '5': 12, '10': 'eventRootHash'},
     const {'1': 'gas_used', '3': 4, '4': 1, '5': 4, '10': 'gasUsed'},
+    const {'1': 'major_status', '3': 5, '4': 1, '5': 4, '10': 'majorStatus'},
   ],
 };
 

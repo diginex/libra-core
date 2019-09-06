@@ -14,6 +14,7 @@ const LedgerInfo$json = const {
     const {'1': 'consensus_block_id', '3': 4, '4': 1, '5': 12, '10': 'consensusBlockId'},
     const {'1': 'epoch_num', '3': 5, '4': 1, '5': 4, '10': 'epochNum'},
     const {'1': 'timestamp_usecs', '3': 6, '4': 1, '5': 4, '10': 'timestampUsecs'},
+    const {'1': 'next_validator_set', '3': 7, '4': 1, '5': 11, '6': '.types.ValidatorSet', '10': 'nextValidatorSet'},
   ],
 };
 
