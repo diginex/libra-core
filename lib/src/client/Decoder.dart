@@ -8,7 +8,7 @@ import 'package:flutter_libra_core/__generated__/proto/vm_errors.pbenum.dart';
 import 'package:flutter_libra_core/__generated__/proto/vm_errors.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/events.pb.dart';
-import 'package:flutter_libra_core/__generated__/proto/access_path.pb.dart';
+import 'package:flutter_libra_core/src/wallet/Event.dart';
 
 class ClientDecoder {
   static LibraAccountState decodeAccountStateBlob(ByteBuffer buffer) {
@@ -24,13 +24,17 @@ class ClientDecoder {
       Uint8List address = cursor.readXBytes(addressLen);
       int balance = cursor.read64();
       bool delegatedWithdrawalCapability = cursor.read8() != 0;
-      int receivedEvents = cursor.read64();
-      int sentEvents = cursor.read64();
+      int receivedEventsCount = cursor.read64();
+      int receivedEventsKeyLen = cursor.read32();
+      Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
+      int sentEventsCount = cursor.read64();
+      int sentEventsKeyLen = cursor.read32();
+      Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
       int sequenceNumber = cursor.read64();
       state[LibraHelpers.byteToHex(key)] = new LibraAccountState(address,
           balance: BigInt.from(balance),
-          receivedEventsCount: BigInt.from(receivedEvents),
-          sentEventsCount: BigInt.from(sentEvents),
+          receivedEvents: new EventHandle(receivedEventsKey, BigInt.from(receivedEventsCount)),
+          sentEvents: new EventHandle(sentEventsKey, BigInt.from(sentEventsCount)),
           sequenceNumber: BigInt.from(sequenceNumber),
           delegatedWithdrawalCapability: delegatedWithdrawalCapability);
     }

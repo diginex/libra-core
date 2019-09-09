@@ -90,8 +90,8 @@ void main() {
       LibraAccountState state = await client.getAccountState(address);
       expect(LibraHelpers.byteToHex(state.authenticationKey), address);
       expect(state.balance, BigInt.zero);
-      expect(state.receivedEventsCount, BigInt.zero);
-      expect(state.sentEventsCount, BigInt.zero);
+      expect(state.receivedEvents.count, BigInt.zero);
+      expect(state.sentEvents.count, BigInt.zero);
       expect(state.sequenceNumber, BigInt.zero);
       expect(state.delegatedWithdrawalCapability, true);
     });

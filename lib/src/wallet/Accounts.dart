@@ -1,22 +1,25 @@
 import 'dart:typed_data';
 import 'package:flutter_libra_core/src/wallet/KeyPair.dart';
+import 'package:flutter_libra_core/src/wallet/Event.dart';
 
 class LibraAccountState {
   Uint8List authenticationKey;
-  BigInt balance, receivedEventsCount, sentEventsCount, sequenceNumber;
+  BigInt balance, sequenceNumber;
+  EventHandle receivedEvents, sentEvents;
   bool delegatedWithdrawalCapability;
 
   LibraAccountState(this.authenticationKey,
       {BigInt balance,
-      BigInt receivedEventsCount,
-      BigInt sentEventsCount,
+      EventHandle receivedEvents,
+      EventHandle sentEvents,
       BigInt sequenceNumber,
       this.delegatedWithdrawalCapability = true}) {
     this.balance = balance == null ? BigInt.zero : balance;
-    this.receivedEventsCount =
-        receivedEventsCount == null ? BigInt.zero : receivedEventsCount;
-    this.sentEventsCount =
-        sentEventsCount == null ? BigInt.zero : sentEventsCount;
+    EventHandle defaultEventHandle = new EventHandle(Uint8List.fromList([]), BigInt.zero); 
+    this.receivedEvents =
+        receivedEvents == null ? defaultEventHandle : receivedEvents;
+    this.sentEvents =
+        sentEvents == null ? defaultEventHandle: sentEvents;
     this.sequenceNumber = sequenceNumber == null ? BigInt.zero : sequenceNumber;
   }
 }
