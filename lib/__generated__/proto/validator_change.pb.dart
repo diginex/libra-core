@@ -10,12 +10,12 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'ledger_info.pb.dart' as $8;
-import 'events.pb.dart' as $6;
+import 'events.pb.dart' as $5;
 
 class ValidatorChangeEventWithProof extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ValidatorChangeEventWithProof', package: const $pb.PackageName('types'))
     ..a<$8.LedgerInfoWithSignatures>(1, 'ledgerInfoWithSigs', $pb.PbFieldType.OM, $8.LedgerInfoWithSignatures.getDefault, $8.LedgerInfoWithSignatures.create)
-    ..a<$6.EventWithProof>(2, 'eventWithProof', $pb.PbFieldType.OM, $6.EventWithProof.getDefault, $6.EventWithProof.create)
+    ..a<$5.EventWithProof>(2, 'eventWithProof', $pb.PbFieldType.OM, $5.EventWithProof.getDefault, $5.EventWithProof.create)
     ..hasRequiredFields = false
   ;
 
@@ -38,8 +38,8 @@ class ValidatorChangeEventWithProof extends $pb.GeneratedMessage {
   $core.bool hasLedgerInfoWithSigs() => $_has(0);
   void clearLedgerInfoWithSigs() => clearField(1);
 
-  $6.EventWithProof get eventWithProof => $_getN(1);
-  set eventWithProof($6.EventWithProof v) { setField(2, v); }
+  $5.EventWithProof get eventWithProof => $_getN(1);
+  set eventWithProof($5.EventWithProof v) { setField(2, v); }
   $core.bool hasEventWithProof() => $_has(1);
   void clearEventWithProof() => clearField(2);
 }

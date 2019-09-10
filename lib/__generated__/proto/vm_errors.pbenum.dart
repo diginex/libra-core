@@ -298,6 +298,8 @@ class RuntimeStatus extends $pb.ProtobufEnum {
   static const RuntimeStatus ValueSerializationError = RuntimeStatus._(13, 'ValueSerializationError');
   static const RuntimeStatus ValueDeserializationError = RuntimeStatus._(14, 'ValueDeserializationError');
   static const RuntimeStatus DuplicateModuleName = RuntimeStatus._(15, 'DuplicateModuleName');
+  static const RuntimeStatus ExecutionStackOverflow = RuntimeStatus._(16, 'ExecutionStackOverflow');
+  static const RuntimeStatus CallStackOverflow = RuntimeStatus._(17, 'CallStackOverflow');
 
   static const $core.List<RuntimeStatus> values = <RuntimeStatus> [
     UnknownRuntimeStatus,
@@ -316,6 +318,8 @@ class RuntimeStatus extends $pb.ProtobufEnum {
     ValueSerializationError,
     ValueDeserializationError,
     DuplicateModuleName,
+    ExecutionStackOverflow,
+    CallStackOverflow,
   ];
 
   static final $core.Map<$core.int, RuntimeStatus> _byValue = $pb.ProtobufEnum.initByValue(values);

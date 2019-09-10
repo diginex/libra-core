@@ -162,6 +162,8 @@ const RuntimeStatus$json = const {
     const {'1': 'ValueSerializationError', '2': 13},
     const {'1': 'ValueDeserializationError', '2': 14},
     const {'1': 'DuplicateModuleName', '2': 15},
+    const {'1': 'ExecutionStackOverflow', '2': 16},
+    const {'1': 'CallStackOverflow', '2': 17},
   ],
 };
 

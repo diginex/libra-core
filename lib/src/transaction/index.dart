@@ -134,17 +134,17 @@ class LibraTransactionResponse {
 }
 
 class LibraTransactionEvent {
-  Uint8List data, path;
+  Uint8List data, eventKey;
   BigInt sequenceNumber;
   String address;
 
   LibraTransactionEvent(this.data, this.sequenceNumber,
-      {String address, Uint8List path}) {
+      {String address, Uint8List eventKey}) {
     if (address != null) {
       this.address = address;
     }
-    if (path != null) {
-      this.path = path;
+    if (eventKey != null) {
+      this.eventKey = eventKey;
     }
   }
 }

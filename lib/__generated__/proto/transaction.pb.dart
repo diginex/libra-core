@@ -11,8 +11,8 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'proof.pb.dart' as $4;
-import 'events.pb.dart' as $6;
-import 'access_path.pb.dart' as $5;
+import 'events.pb.dart' as $5;
+import 'access_path.pb.dart' as $6;
 import 'transaction_info.pb.dart' as $3;
 import 'wrappers.pb.dart' as $7;
 
@@ -275,7 +275,7 @@ class SignedTransactionWithProof extends $pb.GeneratedMessage {
     ..a<Int64>(1, 'version', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<SignedTransaction>(2, 'signedTransaction', $pb.PbFieldType.OM, SignedTransaction.getDefault, SignedTransaction.create)
     ..a<$4.SignedTransactionProof>(3, 'proof', $pb.PbFieldType.OM, $4.SignedTransactionProof.getDefault, $4.SignedTransactionProof.create)
-    ..a<$6.EventsList>(4, 'events', $pb.PbFieldType.OM, $6.EventsList.getDefault, $6.EventsList.create)
+    ..a<$5.EventsList>(4, 'events', $pb.PbFieldType.OM, $5.EventsList.getDefault, $5.EventsList.create)
     ..hasRequiredFields = false
   ;
 
@@ -308,8 +308,8 @@ class SignedTransactionWithProof extends $pb.GeneratedMessage {
   $core.bool hasProof() => $_has(2);
   void clearProof() => clearField(3);
 
-  $6.EventsList get events => $_getN(3);
-  set events($6.EventsList v) { setField(4, v); }
+  $5.EventsList get events => $_getN(3);
+  set events($5.EventsList v) { setField(4, v); }
   $core.bool hasEvents() => $_has(3);
   void clearEvents() => clearField(4);
 }
@@ -374,7 +374,7 @@ class WriteSet extends $pb.GeneratedMessage {
 
 class WriteOp extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('WriteOp', package: const $pb.PackageName('types'))
-    ..a<$5.AccessPath>(1, 'accessPath', $pb.PbFieldType.OM, $5.AccessPath.getDefault, $5.AccessPath.create)
+    ..a<$6.AccessPath>(1, 'accessPath', $pb.PbFieldType.OM, $6.AccessPath.getDefault, $6.AccessPath.create)
     ..a<$core.List<$core.int>>(2, 'value', $pb.PbFieldType.OY)
     ..e<WriteOpType>(3, 'type', $pb.PbFieldType.OE, WriteOpType.Write, WriteOpType.valueOf, WriteOpType.values)
     ..hasRequiredFields = false
@@ -394,8 +394,8 @@ class WriteOp extends $pb.GeneratedMessage {
   static WriteOp getDefault() => _defaultInstance ??= create()..freeze();
   static WriteOp _defaultInstance;
 
-  $5.AccessPath get accessPath => $_getN(0);
-  set accessPath($5.AccessPath v) { setField(1, v); }
+  $6.AccessPath get accessPath => $_getN(0);
+  set accessPath($6.AccessPath v) { setField(1, v); }
   $core.bool hasAccessPath() => $_has(0);
   void clearAccessPath() => clearField(1);
 
@@ -446,7 +446,7 @@ class TransactionToCommit extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('TransactionToCommit', package: const $pb.PackageName('types'))
     ..a<SignedTransaction>(1, 'signedTxn', $pb.PbFieldType.OM, SignedTransaction.getDefault, SignedTransaction.create)
     ..pc<AccountState>(2, 'accountStates', $pb.PbFieldType.PM,AccountState.create)
-    ..pc<$6.Event>(3, 'events', $pb.PbFieldType.PM,$6.Event.create)
+    ..pc<$5.Event>(3, 'events', $pb.PbFieldType.PM,$5.Event.create)
     ..a<Int64>(4, 'gasUsed', $pb.PbFieldType.OU6, Int64.ZERO)
     ..hasRequiredFields = false
   ;
@@ -472,7 +472,7 @@ class TransactionToCommit extends $pb.GeneratedMessage {
 
   $core.List<AccountState> get accountStates => $_getList(1);
 
-  $core.List<$6.Event> get events => $_getList(2);
+  $core.List<$5.Event> get events => $_getList(2);
 
   Int64 get gasUsed => $_getI64(3);
   set gasUsed(Int64 v) { $_setInt64(3, v); }
@@ -484,7 +484,7 @@ class TransactionListWithProof extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('TransactionListWithProof', package: const $pb.PackageName('types'))
     ..pc<SignedTransaction>(1, 'transactions', $pb.PbFieldType.PM,SignedTransaction.create)
     ..pc<$3.TransactionInfo>(2, 'infos', $pb.PbFieldType.PM,$3.TransactionInfo.create)
-    ..a<$6.EventsForVersions>(3, 'eventsForVersions', $pb.PbFieldType.OM, $6.EventsForVersions.getDefault, $6.EventsForVersions.create)
+    ..a<$5.EventsForVersions>(3, 'eventsForVersions', $pb.PbFieldType.OM, $5.EventsForVersions.getDefault, $5.EventsForVersions.create)
     ..a<$7.UInt64Value>(4, 'firstTransactionVersion', $pb.PbFieldType.OM, $7.UInt64Value.getDefault, $7.UInt64Value.create)
     ..a<$4.AccumulatorProof>(5, 'proofOfFirstTransaction', $pb.PbFieldType.OM, $4.AccumulatorProof.getDefault, $4.AccumulatorProof.create)
     ..a<$4.AccumulatorProof>(6, 'proofOfLastTransaction', $pb.PbFieldType.OM, $4.AccumulatorProof.getDefault, $4.AccumulatorProof.create)
@@ -509,8 +509,8 @@ class TransactionListWithProof extends $pb.GeneratedMessage {
 
   $core.List<$3.TransactionInfo> get infos => $_getList(1);
 
-  $6.EventsForVersions get eventsForVersions => $_getN(2);
-  set eventsForVersions($6.EventsForVersions v) { setField(3, v); }
+  $5.EventsForVersions get eventsForVersions => $_getN(2);
+  set eventsForVersions($5.EventsForVersions v) { setField(3, v); }
   $core.bool hasEventsForVersions() => $_has(2);
   void clearEventsForVersions() => clearField(3);
 

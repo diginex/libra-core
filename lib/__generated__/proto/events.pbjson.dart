@@ -8,7 +8,7 @@
 const Event$json = const {
   '1': 'Event',
   '2': const [
-    const {'1': 'access_path', '3': 1, '4': 1, '5': 11, '6': '.types.AccessPath', '10': 'accessPath'},
+    const {'1': 'key', '3': 1, '4': 1, '5': 12, '10': 'key'},
     const {'1': 'sequence_number', '3': 2, '4': 1, '5': 4, '10': 'sequenceNumber'},
     const {'1': 'event_data', '3': 3, '4': 1, '5': 12, '10': 'eventData'},
   ],

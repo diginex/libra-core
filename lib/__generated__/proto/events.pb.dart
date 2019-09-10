@@ -10,12 +10,11 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'access_path.pb.dart' as $5;
 import 'proof.pb.dart' as $4;
 
 class Event extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Event', package: const $pb.PackageName('types'))
-    ..a<$5.AccessPath>(1, 'accessPath', $pb.PbFieldType.OM, $5.AccessPath.getDefault, $5.AccessPath.create)
+    ..a<$core.List<$core.int>>(1, 'key', $pb.PbFieldType.OY)
     ..a<Int64>(2, 'sequenceNumber', $pb.PbFieldType.OU6, Int64.ZERO)
     ..a<$core.List<$core.int>>(3, 'eventData', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
@@ -35,10 +34,10 @@ class Event extends $pb.GeneratedMessage {
   static Event getDefault() => _defaultInstance ??= create()..freeze();
   static Event _defaultInstance;
 
-  $5.AccessPath get accessPath => $_getN(0);
-  set accessPath($5.AccessPath v) { setField(1, v); }
-  $core.bool hasAccessPath() => $_has(0);
-  void clearAccessPath() => clearField(1);
+  $core.List<$core.int> get key => $_getN(0);
+  set key($core.List<$core.int> v) { $_setBytes(0, v); }
+  $core.bool hasKey() => $_has(0);
+  void clearKey() => clearField(1);
 
   Int64 get sequenceNumber => $_getI64(1);
   set sequenceNumber(Int64 v) { $_setInt64(1, v); }

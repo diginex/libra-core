@@ -53,21 +53,10 @@ class ClientDecoder {
     if (signedTransactionWP.hasEvents()) {
       EventsList list = signedTransactionWP.events;
       list.events.forEach((event) {
-        String address;
-        Uint8List path;
-
-        if (event.hasAccessPath()) {
-          AccessPath accessPath = event.accessPath;
-          address =
-              LibraHelpers.byteToHex(Uint8List.fromList(accessPath.address));
-          path = Uint8List.fromList(accessPath.path);
-        }
-
         eventsList.add(new LibraTransactionEvent(
             Uint8List.fromList(event.eventData),
             BigInt.from(event.sequenceNumber.toInt()),
-            address: address,
-            path: path));
+            eventKey: event.key));
       });
     }
     return new LibraSignedTransactionWithProof(libraSignedtransaction,
