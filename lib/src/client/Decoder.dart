@@ -1,11 +1,10 @@
 import 'dart:typed_data';
 import 'package:flutter_libra_core/src/CursorBuffer.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
+import 'package:flutter_libra_core/src/common/simple_deserializer.dart';
 import 'package:flutter_libra_core/src/wallet/Accounts.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 import 'package:flutter_libra_core/src/transaction/index.dart';
-import 'package:flutter_libra_core/__generated__/proto/vm_errors.pbenum.dart';
-import 'package:flutter_libra_core/__generated__/proto/vm_errors.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/events.pb.dart';
 import 'package:flutter_libra_core/src/wallet/Event.dart';
@@ -14,43 +13,64 @@ class ClientDecoder {
   static LibraAccountState decodeAccountStateBlob(ByteBuffer buffer) {
     CursorBuffer cursor = new CursorBuffer(buffer);
     int blobLen = cursor.read32();
-    Map state = new Map();
-
     for (int i = 0; i < blobLen; i++) {
       int keyLen = cursor.read32();
       Uint8List key = cursor.readXBytes(keyLen);
       int valLen = cursor.read32();
-      int addressLen = cursor.read32();
-      Uint8List address = cursor.readXBytes(addressLen);
-      int balance = cursor.read64();
-      bool delegatedWithdrawalCapability = cursor.read8() != 0;
-      int receivedEventsCount = cursor.read64();
-      int receivedEventsKeyLen = cursor.read32();
-      Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
-      int sentEventsCount = cursor.read64();
-      int sentEventsKeyLen = cursor.read32();
-      Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
-      int sequenceNumber = cursor.read64();
-      state[LibraHelpers.byteToHex(key)] = new LibraAccountState(address,
+      if (LibraHelpers.byteToHex(key) != PathValues.AccountStatePath) {
+        cursor.readXBytes(valLen);
+      } else {
+        int addressLen = cursor.read32();
+        Uint8List address = cursor.readXBytes(addressLen);
+        int balance = cursor.read64();
+        bool delegatedWithdrawalCapability = cursor.read8() != 0;
+        int receivedEventsCount = cursor.read32();
+        cursor.read32();
+        int receivedEventsKeyLen = cursor.read32();
+        Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
+        int sentEventsCount = cursor.read32();
+        cursor.read32();
+        int sentEventsKeyLen = cursor.read32();
+        Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
+        int sequenceNumber = cursor.read32();
+        return new LibraAccountState(address,
           balance: BigInt.from(balance),
           receivedEvents: new EventHandle(receivedEventsKey, BigInt.from(receivedEventsCount)),
           sentEvents: new EventHandle(sentEventsKey, BigInt.from(sentEventsCount)),
           sequenceNumber: BigInt.from(sequenceNumber),
           delegatedWithdrawalCapability: delegatedWithdrawalCapability);
+      }
     }
-    return state[PathValues.AccountStatePath];
+    return null;
   }
-
+ 
   static LibraSignedTransactionWithProof decodeSignedTransactionWithProof(
       SignedTransactionWithProof signedTransactionWP) {
     // decode transaction
     SignedTransaction signedTransaction = signedTransactionWP.signedTransaction;
-    LibraTransaction libraTransaction = decodeRawTransactionBytes(
-        Uint8List.fromList(signedTransaction.rawTxnBytes));
-    LibraSignedTransaction libraSignedtransaction = new LibraSignedTransaction(
-        libraTransaction,
-        Uint8List.fromList(signedTransaction.senderPublicKey),
-        Uint8List.fromList(signedTransaction.senderSignature));
+    var deserializer = new SimpleDeserializer(Uint8List.fromList(signedTransaction.signedTxn));
+    var rawSignedTransaction = deserializer.decodeObject(new RawSignedTransaction());
+
+    var txn = rawSignedTransaction.rawTxn;
+    Program program = txn.payload.value;
+    List<LibraProgramArgument> arguments = [];
+    program.arguments.forEach((argument) {
+      Uint8List value;
+      if (argument.type == TransactionArgument_ArgType.U64) {
+        value = LibraHelpers.bigIntToFixLengthBytes(BigInt.from(argument.u64Value), 64, le: true);
+      } else {
+        value = argument.byteValue;
+      }
+      arguments.add(new LibraProgramArgument(argument.type, value));
+    });
+    var libraTxn = new LibraTransaction(
+      new LibraProgram(program.code, program.modules, arguments),
+      new LibraGasConstraint(BigInt.from(txn.gasUnitPrice), BigInt.from(txn.maxGasAmount)),
+      txn.expirationTime,
+      BigInt.from(txn.sequenceNumber),
+    );
+    var libraSignedTransaction = new LibraSignedTransaction(
+      libraTxn, rawSignedTransaction.publicKey, rawSignedTransaction.signature);
 
     // decode event
     List<LibraTransactionEvent> eventsList = [];
@@ -63,38 +83,10 @@ class ClientDecoder {
             eventKey: event.key));
       });
     }
-    return new LibraSignedTransactionWithProof(libraSignedtransaction,
+    return new LibraSignedTransactionWithProof(libraSignedTransaction,
         proof: signedTransactionWP.proof, events: eventsList);
   }
-
-  static LibraTransaction decodeRawTransactionBytes(Uint8List rawTxnBytes) {
-    RawTransaction rawTxn = RawTransaction.fromBuffer(rawTxnBytes);
-    Program rawProgram = rawTxn.program;
-    List<LibraProgramArgument> arguments = [];
-    rawProgram.arguments.forEach((argument) {
-      arguments.add(new LibraProgramArgument(
-          argument.type, Uint8List.fromList(argument.data)));
-    });
-    List<Uint8List> modules = [];
-    rawProgram.modules.forEach((module) {
-      modules.add(Uint8List.fromList(module));
-    });
-    LibraProgram program = new LibraProgram(
-        Uint8List.fromList(rawProgram.code), arguments, modules);
-
-    LibraGasConstraint gasContraint = new LibraGasConstraint(
-        BigInt.from(rawTxn.gasUnitPrice.toInt()),
-        BigInt.from(rawTxn.maxGasAmount.toInt()));
-
-    return new LibraTransaction(
-      program,
-      gasContraint,
-      rawTxn.expirationTime.toInt(),
-      Uint8List.fromList(rawTxn.senderAccount),
-      BigInt.from(rawTxn.sequenceNumber.toInt()),
-    );
-  }
-
+/*
   static LibraVMStatusError decodeVMStatus(VMStatus vmStatus) {
     VMStatus_ErrorType errorType = vmStatus.whichErrorType();
     LibraValidationStatusError validationStatus;
@@ -151,4 +143,5 @@ class ClientDecoder {
         deserializationError: deserializationError,
         executionError: executionError);
   }
+  */
 }

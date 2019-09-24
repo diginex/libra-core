@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:hex/hex.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter_libra_core/flutter_libra_core.dart';
 import 'package:flutter_libra_core/src/transaction/index.dart';
-import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
+import 'package:flutter_libra_core/__generated__/proto/transaction.pbenum.dart';
 
 class ClientEncoder {
   static Future<RawTransaction> encodeLibraTransaction(
@@ -14,22 +13,25 @@ class ClientEncoder {
     transaction.program.arguments.forEach((argument) {
       TransactionArgument transactionArgument = new TransactionArgument();
       transactionArgument.type = argument.type;
-      transactionArgument.data = argument.value;
+      if (argument.type == TransactionArgument_ArgType.U64) {
+        transactionArgument.u64Value = LibraHelpers.byteToBigInt(argument.value, le: true).toInt();
+      } else {
+        transactionArgument.byteValue = argument.value;
+      }
       transactionArguments.add(transactionArgument);
     });
-    program.arguments.addAll(transactionArguments);
-    program.modules.addAll(transaction.program.modules);
+    program.arguments = transactionArguments;
+    program.modules = transaction.program.modules;
 
     var rawTransaction = new RawTransaction();
-    rawTransaction.expirationTime = Int64(transaction.expirationTime);
-    rawTransaction.gasUnitPrice =
-        Int64(transaction.gasContraint.gasUnitPrice.toInt());
-    rawTransaction.maxGasAmount =
-        Int64(transaction.gasContraint.maxGasAmount.toInt());
-    rawTransaction.sequenceNumber = Int64(transaction.sequenceNumber.toInt());
-    rawTransaction.program = program;
     rawTransaction.senderAccount = HEX.decode(senderAccountAddress);
-
+    rawTransaction.sequenceNumber = transaction.sequenceNumber.toInt();
+    rawTransaction.payload = new TransactionPayload(program);
+    rawTransaction.maxGasAmount =
+        transaction.gasContraint.maxGasAmount.toInt();
+    rawTransaction.gasUnitPrice =
+        transaction.gasContraint.gasUnitPrice.toInt();
+    rawTransaction.expirationTime = transaction.expirationTime;
     return rawTransaction;
   }
 }

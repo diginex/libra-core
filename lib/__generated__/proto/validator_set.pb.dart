@@ -9,11 +9,11 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'validator_public_keys.pb.dart' as $15;
+import 'validator_public_keys.pb.dart' as $5;
 
 class ValidatorSet extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ValidatorSet', package: const $pb.PackageName('types'))
-    ..pc<$15.ValidatorPublicKeys>(1, 'validatorPublicKeys', $pb.PbFieldType.PM,$15.ValidatorPublicKeys.create)
+    ..pc<$5.ValidatorPublicKeys>(1, 'validatorPublicKeys', $pb.PbFieldType.PM,$5.ValidatorPublicKeys.create)
     ..hasRequiredFields = false
   ;
 
@@ -31,6 +31,6 @@ class ValidatorSet extends $pb.GeneratedMessage {
   static ValidatorSet getDefault() => _defaultInstance ??= create()..freeze();
   static ValidatorSet _defaultInstance;
 
-  $core.List<$15.ValidatorPublicKeys> get validatorPublicKeys => $_getList(0);
+  $core.List<$5.ValidatorPublicKeys> get validatorPublicKeys => $_getList(0);
 }
 

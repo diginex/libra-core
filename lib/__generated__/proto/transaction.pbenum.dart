@@ -9,21 +9,6 @@
 import 'dart:core' as $core show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class WriteOpType extends $pb.ProtobufEnum {
-  static const WriteOpType Write = WriteOpType._(0, 'Write');
-  static const WriteOpType Delete = WriteOpType._(1, 'Delete');
-
-  static const $core.List<WriteOpType> values = <WriteOpType> [
-    Write,
-    Delete,
-  ];
-
-  static final $core.Map<$core.int, WriteOpType> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static WriteOpType valueOf($core.int value) => _byValue[value];
-
-  const WriteOpType._($core.int v, $core.String n) : super(v, n);
-}
-
 class TransactionArgument_ArgType extends $pb.ProtobufEnum {
   static const TransactionArgument_ArgType U64 = TransactionArgument_ArgType._(0, 'U64');
   static const TransactionArgument_ArgType ADDRESS = TransactionArgument_ArgType._(1, 'ADDRESS');

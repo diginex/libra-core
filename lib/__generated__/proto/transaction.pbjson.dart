@@ -5,55 +5,8 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
-const WriteOpType$json = const {
-  '1': 'WriteOpType',
-  '2': const [
-    const {'1': 'Write', '2': 0},
-    const {'1': 'Delete', '2': 1},
-  ],
-};
-
-const RawTransaction$json = const {
-  '1': 'RawTransaction',
-  '2': const [
-    const {'1': 'sender_account', '3': 1, '4': 1, '5': 12, '10': 'senderAccount'},
-    const {'1': 'sequence_number', '3': 2, '4': 1, '5': 4, '10': 'sequenceNumber'},
-    const {'1': 'program', '3': 3, '4': 1, '5': 11, '6': '.types.Program', '9': 0, '10': 'program'},
-    const {'1': 'write_set', '3': 4, '4': 1, '5': 11, '6': '.types.WriteSet', '9': 0, '10': 'writeSet'},
-    const {'1': 'script', '3': 8, '4': 1, '5': 11, '6': '.types.Script', '9': 0, '10': 'script'},
-    const {'1': 'module', '3': 9, '4': 1, '5': 11, '6': '.types.Module', '9': 0, '10': 'module'},
-    const {'1': 'max_gas_amount', '3': 5, '4': 1, '5': 4, '10': 'maxGasAmount'},
-    const {'1': 'gas_unit_price', '3': 6, '4': 1, '5': 4, '10': 'gasUnitPrice'},
-    const {'1': 'expiration_time', '3': 7, '4': 1, '5': 4, '10': 'expirationTime'},
-  ],
-  '8': const [
-    const {'1': 'payload'},
-  ],
-};
-
-const Program$json = const {
-  '1': 'Program',
-  '2': const [
-    const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
-    const {'1': 'arguments', '3': 2, '4': 3, '5': 11, '6': '.types.TransactionArgument', '10': 'arguments'},
-    const {'1': 'modules', '3': 3, '4': 3, '5': 12, '10': 'modules'},
-  ],
-};
-
-const Script$json = const {
-  '1': 'Script',
-  '2': const [
-    const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
-    const {'1': 'arguments', '3': 2, '4': 3, '5': 11, '6': '.types.TransactionArgument', '10': 'arguments'},
-  ],
-};
-
 const TransactionArgument$json = const {
   '1': 'TransactionArgument',
-  '2': const [
-    const {'1': 'type', '3': 1, '4': 1, '5': 14, '6': '.types.TransactionArgument.ArgType', '10': 'type'},
-    const {'1': 'data', '3': 2, '4': 1, '5': 12, '10': 'data'},
-  ],
   '4': const [TransactionArgument_ArgType$json],
 };
 
@@ -67,19 +20,10 @@ const TransactionArgument_ArgType$json = const {
   ],
 };
 
-const Module$json = const {
-  '1': 'Module',
-  '2': const [
-    const {'1': 'code', '3': 1, '4': 1, '5': 12, '10': 'code'},
-  ],
-};
-
 const SignedTransaction$json = const {
   '1': 'SignedTransaction',
   '2': const [
-    const {'1': 'raw_txn_bytes', '3': 1, '4': 1, '5': 12, '10': 'rawTxnBytes'},
-    const {'1': 'sender_public_key', '3': 2, '4': 1, '5': 12, '10': 'senderPublicKey'},
-    const {'1': 'sender_signature', '3': 3, '4': 1, '5': 12, '10': 'senderSignature'},
+    const {'1': 'signed_txn', '3': 5, '4': 1, '5': 12, '10': 'signedTxn'},
   ],
 };
 
@@ -102,22 +46,6 @@ const SignedTransactionsBlock$json = const {
   ],
 };
 
-const WriteSet$json = const {
-  '1': 'WriteSet',
-  '2': const [
-    const {'1': 'write_set', '3': 1, '4': 3, '5': 11, '6': '.types.WriteOp', '10': 'writeSet'},
-  ],
-};
-
-const WriteOp$json = const {
-  '1': 'WriteOp',
-  '2': const [
-    const {'1': 'access_path', '3': 1, '4': 1, '5': 11, '6': '.types.AccessPath', '10': 'accessPath'},
-    const {'1': 'value', '3': 2, '4': 1, '5': 12, '10': 'value'},
-    const {'1': 'type', '3': 3, '4': 1, '5': 14, '6': '.types.WriteOpType', '10': 'type'},
-  ],
-};
-
 const AccountState$json = const {
   '1': 'AccountState',
   '2': const [
@@ -133,6 +61,7 @@ const TransactionToCommit$json = const {
     const {'1': 'account_states', '3': 2, '4': 3, '5': 11, '6': '.types.AccountState', '10': 'accountStates'},
     const {'1': 'events', '3': 3, '4': 3, '5': 11, '6': '.types.Event', '10': 'events'},
     const {'1': 'gas_used', '3': 4, '4': 1, '5': 4, '10': 'gasUsed'},
+    const {'1': 'major_status', '3': 5, '4': 1, '5': 4, '10': 'majorStatus'},
   ],
 };
 
