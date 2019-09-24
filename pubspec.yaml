@@ -1,6 +1,6 @@
 name: flutter_libra_core
 description: A plugin implementing cryptography tools used by the Libra.
-version: 0.0.4
+version: 0.1.0
 author: mmsqe <tqd0800210105@gmail.com>
 homepage: https://github.com/mmsqe/flutter_libra_core
 
