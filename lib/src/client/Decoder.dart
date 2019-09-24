@@ -13,31 +13,35 @@ class ClientDecoder {
   static LibraAccountState decodeAccountStateBlob(ByteBuffer buffer) {
     CursorBuffer cursor = new CursorBuffer(buffer);
     int blobLen = cursor.read32();
-    Map state = new Map();
-
     for (int i = 0; i < blobLen; i++) {
       int keyLen = cursor.read32();
       Uint8List key = cursor.readXBytes(keyLen);
       int valLen = cursor.read32();
-      int addressLen = cursor.read32();
-      Uint8List address = cursor.readXBytes(addressLen);
-      int balance = cursor.read64();
-      bool delegatedWithdrawalCapability = cursor.read8() != 0;
-      int receivedEventsCount = cursor.read64();
-      int receivedEventsKeyLen = cursor.read32();
-      Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
-      int sentEventsCount = cursor.read64();
-      int sentEventsKeyLen = cursor.read32();
-      Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
-      int sequenceNumber = cursor.read64();
-      state[LibraHelpers.byteToHex(key)] = new LibraAccountState(address,
+      if (LibraHelpers.byteToHex(key) != PathValues.AccountStatePath) {
+        cursor.readXBytes(valLen);
+      } else {
+        int addressLen = cursor.read32();
+        Uint8List address = cursor.readXBytes(addressLen);
+        int balance = cursor.read64();
+        bool delegatedWithdrawalCapability = cursor.read8() != 0;
+        int receivedEventsCount = cursor.read32();
+        cursor.read32();
+        int receivedEventsKeyLen = cursor.read32();
+        Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
+        int sentEventsCount = cursor.read32();
+        cursor.read32();
+        int sentEventsKeyLen = cursor.read32();
+        Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
+        int sequenceNumber = cursor.read32();
+        return new LibraAccountState(address,
           balance: BigInt.from(balance),
           receivedEvents: new EventHandle(receivedEventsKey, BigInt.from(receivedEventsCount)),
           sentEvents: new EventHandle(sentEventsKey, BigInt.from(sentEventsCount)),
           sequenceNumber: BigInt.from(sequenceNumber),
           delegatedWithdrawalCapability: delegatedWithdrawalCapability);
+      }
     }
-    return state[PathValues.AccountStatePath];
+    return null;
   }
  
   static LibraSignedTransactionWithProof decodeSignedTransactionWithProof(
