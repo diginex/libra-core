@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/macs/hmac.dart';
-import 'package:pointycastle/key_derivators/api.dart';
-import 'package:pointycastle/key_derivators/pbkdf2.dart';
-import 'package:flutter_libra_core/src/crypto/digests/sha3.dart';
+import 'package:pointycastle_base/api.dart';
+import 'package:pointycastle_base/macs/hmac.dart';
+import 'package:pointycastle_base/key_derivators/api.dart';
+import 'package:pointycastle_base/key_derivators/pbkdf2.dart';
+import 'package:pointycastle_base/digests/sha3.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/wallet/KeyPair.dart';
 import 'package:flutter_libra_core/src/wallet/Mnemonic.dart';

@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pointycastle: ^1.0.1
+  pointycastle_base: ^0.0.2
   hex: ^0.1.2
   convert: ^2.1.1
   fixnum: ^0.10.9

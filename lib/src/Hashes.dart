@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/macs/hmac.dart';
-import 'package:flutter_libra_core/src/crypto/digests/sha3.dart';
+import 'package:pointycastle_base/api.dart';
+import 'package:pointycastle_base/macs/hmac.dart';
+import 'package:pointycastle_base/digests/sha3.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 
 class Hashes {

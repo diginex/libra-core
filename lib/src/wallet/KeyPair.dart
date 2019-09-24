@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:ed25519_dart_base/ed25519_dart.dart' as ed25519_dart;
-import 'package:pointycastle/api.dart';
-import 'package:flutter_libra_core/src/crypto/digests/sha3.dart';
+import 'package:pointycastle_base/api.dart';
+import 'package:pointycastle_base/digests/sha3.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/Constants.dart';
 
