@@ -33,9 +33,9 @@ class ServerHosts {
 }
 
 class SeedValues {
-  static final int Iterations = 2048;
-  static final int KeySize = 32;
-  static final int Size = 64;
+  static const int Iterations = 2048;
+  static const int KeySize = 32;
+  static const int Size = 64;
 }
 
 const String MintAccount =
