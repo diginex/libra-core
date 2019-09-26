@@ -24,6 +24,7 @@ class ClientDecoder {
         Uint8List address = cursor.readXBytes(addressLen);
         int balance = cursor.read64();
         bool delegatedWithdrawalCapability = cursor.read8() != 0;
+        cursor.read8();
         int receivedEventsCount = cursor.read32();
         cursor.read32();
         int receivedEventsKeyLen = cursor.read32();
