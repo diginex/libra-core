@@ -3,7 +3,6 @@ import 'package:flutter_libra_core/src/CursorBuffer.dart';
 import 'package:flutter_libra_core/src/LibraHelpers.dart';
 import 'package:flutter_libra_core/src/common/simple_deserializer.dart';
 import 'package:flutter_libra_core/src/wallet/Accounts.dart';
-import 'package:flutter_libra_core/src/Constants.dart';
 import 'package:flutter_libra_core/src/transaction/index.dart';
 import 'package:flutter_libra_core/__generated__/proto/transaction.pb.dart';
 import 'package:flutter_libra_core/__generated__/proto/events.pb.dart';
@@ -17,34 +16,33 @@ class ClientDecoder {
       int keyLen = cursor.read32();
       Uint8List key = cursor.readXBytes(keyLen);
       int valLen = cursor.read32();
-      if (LibraHelpers.byteToHex(key) != PathValues.AccountStatePath) {
-        cursor.readXBytes(valLen);
-      } else {
-        int addressLen = cursor.read32();
-        Uint8List address = cursor.readXBytes(addressLen);
-        int balance = cursor.read64();
-        bool delegatedWithdrawalCapability = cursor.read8() != 0;
-        cursor.read8();
-        int receivedEventsCount = cursor.read32();
-        cursor.read32();
-        int receivedEventsKeyLen = cursor.read32();
-        Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
-        int sentEventsCount = cursor.read32();
-        cursor.read32();
-        int sentEventsKeyLen = cursor.read32();
-        Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
-        int sequenceNumber = cursor.read32();
-        return new LibraAccountState(address,
+      int addressLen = cursor.read32();
+      Uint8List address = cursor.readXBytes(addressLen);
+      int balance = cursor.read64();
+      bool delegatedWithdrawalCapability = cursor.readBool();
+      bool delegatedKeyRotationCapability = cursor.readBool();
+      int receivedEventsCount = cursor.read32();
+      cursor.read32();
+      int receivedEventsKeyLen = cursor.read32();
+      Uint8List receivedEventsKey = cursor.readXBytes(receivedEventsKeyLen);
+      int sentEventsCount = cursor.read32();
+      cursor.read32();
+      int sentEventsKeyLen = cursor.read32();
+      Uint8List sentEventsKey = cursor.readXBytes(sentEventsKeyLen);
+      int sequenceNumber = cursor.read32();
+      return new LibraAccountState(address,
           balance: BigInt.from(balance),
-          receivedEvents: new EventHandle(receivedEventsKey, BigInt.from(receivedEventsCount)),
-          sentEvents: new EventHandle(sentEventsKey, BigInt.from(sentEventsCount)),
+          receivedEvents: new EventHandle(
+              receivedEventsKey, BigInt.from(receivedEventsCount)),
+          sentEvents:
+              new EventHandle(sentEventsKey, BigInt.from(sentEventsCount)),
           sequenceNumber: BigInt.from(sequenceNumber),
-          delegatedWithdrawalCapability: delegatedWithdrawalCapability);
-      }
+          delegatedWithdrawalCapability: delegatedWithdrawalCapability,
+          delegatedKeyRotationCapability: delegatedKeyRotationCapability);
     }
     return null;
   }
- 
+
   static LibraSignedTransactionWithProof decodeSignedTransactionWithProof(
       SignedTransactionWithProof signedTransactionWP) {
     // decode transaction

@@ -7,13 +7,15 @@ class LibraAccountState {
   BigInt balance, sequenceNumber;
   EventHandle receivedEvents, sentEvents;
   bool delegatedWithdrawalCapability;
+  bool delegatedKeyRotationCapability;
 
   LibraAccountState(this.authenticationKey,
       {BigInt balance,
       EventHandle receivedEvents,
       EventHandle sentEvents,
       BigInt sequenceNumber,
-      this.delegatedWithdrawalCapability = true}) {
+      this.delegatedWithdrawalCapability = false,
+      this.delegatedKeyRotationCapability = false}) {
     this.balance = balance == null ? BigInt.zero : balance;
     EventHandle defaultEventHandle = new EventHandle(Uint8List.fromList([]), BigInt.zero); 
     this.receivedEvents =

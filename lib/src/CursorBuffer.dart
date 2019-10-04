@@ -9,6 +9,10 @@ class CursorBuffer {
     bytePositon = 0;
   }
 
+  bool readBool() {
+    return this.read8() != 0;
+  }
+
   int read8() {
     var value = buffer.asByteData(bytePositon, 1).getInt8(0);
     bytePositon += 1;

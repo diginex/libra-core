@@ -169,7 +169,8 @@ void main() {
       expect(state.receivedEvents.count, BigInt.zero);
       expect(state.sentEvents.count, BigInt.zero);
       expect(state.sequenceNumber, BigInt.zero);
-      expect(state.delegatedWithdrawalCapability, true);
+      expect(state.delegatedWithdrawalCapability, false);
+      expect(state.delegatedKeyRotationCapability, false);
     });
 
     test('test faucet and transfer', () async {
