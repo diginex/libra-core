@@ -47,6 +47,7 @@ A `LibraWallet` holds more than one `LibraAccount` objects, each account being a
     LibraAccount bob = wallet.newAccount();
 
 Generate addres from account:
+
     String aliceAddress = alice.getAddress();
 
 ### Minting Amount
